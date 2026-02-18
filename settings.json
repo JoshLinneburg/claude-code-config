@@ -91,6 +91,6 @@
     "deny": [
       "Bash(supabase db reset:*)"
     ],
-    "defaultMode": "dontAsk"
+    "defaultMode": "default"
   }
 }
