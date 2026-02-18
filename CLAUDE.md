@@ -49,6 +49,7 @@ These apply regardless of language. Use the most modern, idiomatic patterns for 
 - **Branch naming**: `feat/`, `fix/`, `hotfix/` prefixes with descriptive kebab-case slugs
 - **Commit messages**: Conventional Commits format — `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`. Use scope when the project is a monorepo (e.g., `feat(benchmark): ...`).
 - **Commits should be atomic**: one logical change per commit, not a day's worth of work squashed together.
+- **Commit after every completed unit of work.** Do not wait until the end of a session or until asked. When a function is written and tested, commit it. When a bug is fixed, commit it. When a refactor is complete, commit it. Small, frequent commits are always better than one giant commit at the end. This is not optional.
 
 ## Context Persistence
 
@@ -62,7 +63,8 @@ This machine uses a `.planning/` directory pattern to preserve important context
 - This works for both worktrees AND branch switching in a single repo
 - If `.planning/` exists but no state file for the current branch, that branch just hasn't been checkpointed yet. That's normal.
 
-### When to checkpoint proactively (don't wait to be asked):
+### When to checkpoint proactively — THIS IS NOT OPTIONAL:
+You MUST invoke /checkpoint on your own when any of these occur. Do not wait for the user to ask. Do not skip this. This is a core part of how this codebase operates:
 - An architectural or design decision was made or changed
 - A non-obvious trade-off was discussed and a direction was chosen
 - A bug root cause was identified after meaningful investigation
