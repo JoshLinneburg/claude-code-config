@@ -1,0 +1,14 @@
+# Ignore everything by default
+*
+
+# Track configuration
+!.gitignore
+!CLAUDE.md
+!settings.json
+
+# Track skills
+!skills/
+!skills/**
+
+# Never track credentials or local state
+.credentials.json
