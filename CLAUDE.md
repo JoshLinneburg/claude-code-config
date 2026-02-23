@@ -39,6 +39,7 @@ These apply regardless of language. Use the most modern, idiomatic patterns for 
 - Mock external dependencies (APIs, databases), not internal logic.
 - Use data-driven/parametrized tests when testing the same logic with multiple inputs.
 - Group related tests by feature or class under test.
+- **Design for testability: push logic into pure functions.** If a function mixes I/O (database queries, API calls, file reads) with business logic (filtering, transforming, deciding), split it. The I/O layer fetches data; the pure function processes it. Pure functions are trivially testable — real inputs, real outputs, no mocks. A test that only asserts "the right method was called on a mock" tests nothing about correctness. If you can't test the actual behavior without a mock, the code needs refactoring, not a better mock.
 
 ### Verification
 - Before considering work done, check if the project has lint, test, and build commands. Run them.
@@ -51,9 +52,17 @@ These apply regardless of language. Use the most modern, idiomatic patterns for 
 - **Commits should be atomic**: one logical change per commit, not a day's worth of work squashed together.
 - **Commit after every completed unit of work.** Do not wait until the end of a session or until asked. When a function is written and tested, commit it. When a bug is fixed, commit it. When a refactor is complete, commit it. Small, frequent commits are always better than one giant commit at the end. This is not optional.
 
-## Context Persistence
+## Context Persistence — MANDATORY
 
 This machine uses a `.planning/` directory pattern to preserve important context across sessions. Run `/init-planning` in any new project to set it up.
+
+**These are requirements, not suggestions. You MUST use these skills proactively:**
+- **`/load-context`** — Run this at the START of every session when `.planning/` exists. Do not begin work without loading context first.
+- **`/checkpoint [description]`** — Run this proactively when the criteria below are met. Do not wait to be asked. Do not skip this.
+- **`/save-decision [title]`** — Run this when an architectural or design decision is made. Do not just mention the decision in conversation — persist it.
+- **`/cleanup-planning`** — Run this when `/load-context` reports stale files.
+
+Failing to use these skills means context is lost between sessions, which wastes time and leads to repeated work. **This is non-negotiable.**
 
 ### Branch & worktree behavior:
 - State files are **per-branch**: `.planning/STATE-<branch-slug>.md` (e.g., `STATE-feat-grader-improvement.md`)
