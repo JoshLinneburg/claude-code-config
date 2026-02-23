@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo '--- CONTEXT RECOVERED AFTER COMPACTION ---'; cat \".planning/STATE-${BRANCH}.md\"; echo '--- END RECOVERED CONTEXT ---'; fi"
+            "command": "echo '--- MANDATORY RULES (re-injected after compaction) ---'; echo 'You MUST follow these rules for the remainder of this session:'; echo '1. COMMIT after every completed unit of work. Do not batch commits. Do not wait to be asked.'; echo '2. CHECKPOINT (/checkpoint) when: a decision is made, a dead end is hit, scope is clarified, a bug root cause is found, or the session is wrapping up.'; echo '3. SAVE DECISIONS (/save-decision) when architectural or design choices are made. Persist them, do not just discuss them.'; echo '4. Run lint, test, and build commands before considering work done.'; echo '--- END MANDATORY RULES ---'; echo ''; BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo '--- CONTEXT RECOVERED AFTER COMPACTION ---'; cat \".planning/STATE-${BRANCH}.md\"; echo '--- END RECOVERED CONTEXT ---'; fi"
           }
         ]
       }
