@@ -60,6 +60,7 @@ This machine uses a `.planning/` directory pattern to preserve important context
 - **`/load-context`** — Run this at the START of every session when `.planning/` exists. Do not begin work without loading context first.
 - **`/checkpoint [description]`** — Run this proactively when the criteria below are met. Do not wait to be asked. Do not skip this.
 - **`/save-decision [title]`** — Run this when an architectural or design decision is made. Do not just mention the decision in conversation — persist it.
+- **`/log-lesson [description]`** — Run this after ANY correction from the user. Record what went wrong and the rule that prevents it recurring. Do not just acknowledge the correction — persist it.
 - **`/cleanup-planning`** — Run this when `/load-context` reports stale files.
 
 Failing to use these skills means context is lost between sessions, which wastes time and leads to repeated work. **This is non-negotiable.**

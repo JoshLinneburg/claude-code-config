@@ -46,15 +46,20 @@ State files are branch-specific:
 
 7. Check current git branch and whether there are uncommitted changes.
 
-8. Provide a **brief** summary (not a wall of text) structured as:
+8. Read `.planning/lessons.md` if it exists. These are rules derived from
+   past corrections — include them in your summary under a "Lessons"
+   heading so they are fresh in context. These are NOT optional reading.
+
+9. Provide a **brief** summary (not a wall of text) structured as:
    - What branch we're on
    - Where we left off (from state file, or "no prior state for this branch")
    - Key decisions that are in effect (from decisions/)
    - Available research topics (from research/)
    - What the recommended next steps are
    - Any open questions or blockers that need resolution
+   - Lessons learned (from lessons.md — list them so they're in context)
 
-9. Check for stale state files: list all `STATE-*.md` files, compare
+10. Check for stale state files: list all `STATE-*.md` files, compare
    their slugs against current local branches
    (`git branch --format='%(refname:short)'` with `/` → `-`). If any
    stale files are found, mention it at the end:

@@ -1,35 +1,4 @@
 {
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo \"PROJECT CONTEXT: .planning/STATE-${BRANCH}.md exists for this branch. Run /load-context for a full briefing.\"; elif [ -d .planning ]; then echo 'PROJECT CONTEXT: .planning/ exists but no state file for this branch yet. Run /load-context to see shared decisions and research.'; fi"
-          }
-        ]
-      },
-      {
-        "matcher": "resume",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo \"SESSION RESUMED — .planning/STATE-${BRANCH}.md exists. Read it to recover context from the previous session.\"; fi"
-          }
-        ]
-      },
-      {
-        "matcher": "compact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '--- MANDATORY RULES (re-injected after compaction) ---'; echo 'You MUST follow these rules for the remainder of this session:'; echo '1. COMMIT after every completed unit of work. Do not batch commits. Do not wait to be asked.'; echo '2. CHECKPOINT (/checkpoint) when: a decision is made, a dead end is hit, scope is clarified, a bug root cause is found, or the session is wrapping up.'; echo '3. SAVE DECISIONS (/save-decision) when architectural or design choices are made. Persist them, do not just discuss them.'; echo '4. Run lint, test, and build commands before considering work done.'; echo '--- END MANDATORY RULES ---'; echo ''; BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo '--- CONTEXT RECOVERED AFTER COMPACTION ---'; cat \".planning/STATE-${BRANCH}.md\"; echo '--- END RECOVERED CONTEXT ---'; fi"
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(git add:*)",
@@ -92,5 +61,37 @@
       "Bash(supabase db reset:*)"
     ],
     "defaultMode": "default"
-  }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo \"PROJECT CONTEXT: .planning/STATE-${BRANCH}.md exists for this branch. Run /load-context for a full briefing.\"; elif [ -d .planning ]; then echo 'PROJECT CONTEXT: .planning/ exists but no state file for this branch yet. Run /load-context to see shared decisions and research.'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo \"SESSION RESUMED — .planning/STATE-${BRANCH}.md exists. Read it to recover context from the previous session.\"; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '--- MANDATORY RULES (re-injected after compaction) ---'; echo 'You MUST follow these rules for the remainder of this session:'; echo '1. COMMIT after every completed unit of work. Do not batch commits. Do not wait to be asked.'; echo '2. CHECKPOINT (/checkpoint) when: a decision is made, a dead end is hit, scope is clarified, a bug root cause is found, or the session is wrapping up.'; echo '3. SAVE DECISIONS (/save-decision) when architectural or design choices are made. Persist them, do not just discuss them.'; echo '4. LOG LESSONS (/log-lesson) after ANY correction from the user. Record what went wrong and the rule to follow.'; echo '5. Run lint, test, and build commands before considering work done.'; echo '--- END MANDATORY RULES ---'; echo ''; BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); if [ -n \"$BRANCH\" ] && [ -f \".planning/STATE-${BRANCH}.md\" ]; then echo '--- CONTEXT RECOVERED AFTER COMPACTION ---'; cat \".planning/STATE-${BRANCH}.md\"; echo '--- END RECOVERED CONTEXT ---'; fi; if [ -f .planning/lessons.md ]; then echo ''; echo '--- LESSONS LEARNED (do not repeat these mistakes) ---'; cat .planning/lessons.md; echo '--- END LESSONS ---'; fi"
+          }
+        ]
+      }
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true
 }

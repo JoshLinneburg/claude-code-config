@@ -48,6 +48,7 @@ This means:
    # Per-branch state — not shared via git
    STATE-*.md
    sessions/
+   lessons.md
    ```
 
 5. Create a `.planning/README.md` with:
