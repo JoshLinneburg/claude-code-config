@@ -25,7 +25,7 @@ at branch changes.
 2. If no arguments, map the project structure first:
    - List top-level directories and identify source directories vs. config
    - Count lines per directory to understand relative size
-   - Read the project's CLAUDE.md and README for conventions and structure
+   - Read the project's CLAUDE.md, CONTRIBUTING.md, and README for conventions and structure
    - Identify the primary language(s) and frameworks in use
 
 3. For projects with multiple modules (monorepos), review one module at a
@@ -40,7 +40,7 @@ Evaluate before reading individual files:
 - Are responsibilities well-separated (e.g., data access, business logic,
   presentation)?
 - Are there circular dependencies or tangled imports?
-- Does the directory structure match the project's CLAUDE.md description?
+- Does the directory structure match the project's CLAUDE.md and CONTRIBUTING.md descriptions?
 
 ### Phase 2: Module-by-Module Review
 For each module or major directory, use a subagent to review:
