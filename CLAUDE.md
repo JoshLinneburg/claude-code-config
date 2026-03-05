@@ -41,6 +41,12 @@ These apply regardless of language. Use the most modern, idiomatic patterns for 
 - Group related tests by feature or class under test.
 - **Design for testability: push logic into pure functions.** If a function mixes I/O (database queries, API calls, file reads) with business logic (filtering, transforming, deciding), split it. The I/O layer fetches data; the pure function processes it. Pure functions are trivially testable — real inputs, real outputs, no mocks. A test that only asserts "the right method was called on a mock" tests nothing about correctness. If you can't test the actual behavior without a mock, the code needs refactoring, not a better mock.
 
+### Implementation Discipline
+- **Extract pure functions first.** Parsing, formatting, and transformation logic must live in testable utility modules, not inline in route handlers, components, or controllers. The I/O boundary calls the pure function — never the other way around.
+- **Write tests with the implementation, not after.** If you can't point to a test file, the work isn't done. Streaming, chunk boundaries, error propagation, and state accumulation are especially error-prone — test them explicitly.
+- **Don't ship code you wouldn't want to debug at 2am.** If error handling requires a comment to explain, it's too clever. Rewrite it so it's obvious.
+- **Don't duplicate data "just in case."** If the protocol guarantees delivery (TCP, ordered streams), trust it. Sending redundant copies "as a safety net" is waste masquerading as caution.
+
 ### Verification
 - Before considering work done, check if the project has lint, test, and build commands. Run them.
 - If a project has CI, the code should pass locally before it's pushed.
