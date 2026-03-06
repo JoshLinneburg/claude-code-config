@@ -87,9 +87,16 @@ Return findings in the same format as Agent 1.
 
 ### Agent 4: Documentation & Dead Code
 Evaluate:
-- **Documentation** — Do public functions have docstrings/comments
+- **Inline Documentation** — Do public functions have docstrings/comments
   explaining what they do, their parameters, and return values? Are
   non-obvious design decisions explained with comments?
+- **Project Documentation** — Do the changes affect behavior described in
+  READMEs, `docs/` files, CLAUDE.md, or CONTRIBUTING.md? If so, are those
+  docs still accurate? Check for: new env vars or config not documented,
+  changed CLI commands or API endpoints not reflected in docs, renamed or
+  moved files referenced in READMEs, new features with no documentation.
+  Apply the same checks as `/doc-drift` but scoped to files relevant to
+  the branch's changes.
 - **Dead Code** — Is there dead code, commented-out code, or TODO
   comments that should be resolved? Unused imports? Unreachable branches?
 
@@ -135,6 +142,9 @@ following. Do not skim. Read the code carefully.
 - Do public functions have docstrings/comments explaining what they do,
   their parameters, and return values?
 - Are non-obvious design decisions explained with comments?
+- Do the changes affect behavior described in READMEs, `docs/` files,
+  CLAUDE.md, or CONTRIBUTING.md? If so, are those docs still accurate?
+- Are there new env vars, CLI commands, or API endpoints not documented?
 - Is there dead code, commented-out code, or TODO comments that should
   be resolved?
 
