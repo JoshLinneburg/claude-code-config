@@ -108,3 +108,5 @@ You MUST invoke /checkpoint on your own when any of these occur. Do not wait for
 Specific behavioral fixes. Unlike Ground Rules (principles) or Code Standards (conventions), these are concrete "do this, not that" instructions learned from experience.
 
 - Don't prefix shell commands with `cd /path &&` when already in the project directory. It forces re-approval in the permission system.
+- Don't chain git commands with `&&` (e.g., `git add && git commit`). Use separate tool calls instead — they can run sequentially.
+- Don't use `$(cat <<'EOF')` for commit messages. Use a plain quoted string: `git commit -m "subject line"` or `git commit -m "subject" -m "body paragraph"`. The `$()` triggers a command substitution security prompt every time.
