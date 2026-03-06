@@ -5,7 +5,6 @@
 - Do not jump to implementation. Understand the problem, constraints, and risks before writing code.
 - Deviations from best practice require a good reason. If we're doing something non-standard, call it out.
 - NEVER execute a destructive action without explicit confirmation. Database changes, data loss, force pushes, irreversible operations — ask first, every time.
-- **Run commands from the current working directory.** Do not prefix commands with `cd /path &&` when already inside the project. Bare commands (`git push`, `uv run pytest`, `npm test`) work fine and avoid forcing re-approval in the permission system.
 
 ## Design Principles
 
@@ -103,3 +102,9 @@ You MUST invoke /checkpoint on your own when any of these occur. Do not wait for
 - When resuming a session, resolve the current branch and read its state file before starting work.
 - After compaction, re-read the branch state file to recover context.
 - State files are ephemeral working memory. Anything worth keeping long-term should be in a decision record or research file before the branch is merged. Run `/cleanup-planning` to remove stale files from merged branches.
+
+## Tactical
+
+Specific behavioral fixes. Unlike Ground Rules (principles) or Code Standards (conventions), these are concrete "do this, not that" instructions learned from experience.
+
+- Don't prefix shell commands with `cd /path &&` when already in the project directory. It forces re-approval in the permission system.
