@@ -64,7 +64,18 @@ build-time issues that lint and tests miss.
 Check if `.planning/decisions/` has any uncommitted or untracked files.
 If so, stage and commit them — they should travel with the PR.
 
-### 2b. Doc drift check
+### 2b. Test gap check
+Run a quick, report-only test gap analysis on the branch's changes:
+- Get the list of new or modified source files from the diff
+- For each file, check if a corresponding test file exists
+- For new public functions/methods, check if they have test coverage
+- Do NOT write tests — this is a pre-ship check, not a fix-up pass
+
+If gaps are found, include them in the PR description under a "Test
+Coverage Gaps" section so the reviewer is aware. This is informational,
+not blocking — the PR can still be created.
+
+### 2c. Doc drift check
 Run a lightweight doc-drift check scoped to this branch's changes:
 - Get the list of changed files (`git diff <base> --name-only`)
 - For each changed source directory, check if its README or relevant
@@ -78,7 +89,7 @@ Run a lightweight doc-drift check scoped to this branch's changes:
 This is a targeted check, not a full `/doc-drift` run. Only inspect docs
 related to the files that changed on this branch.
 
-### 2c. State file current
+### 2d. State file current
 If `.planning/` exists, run `/checkpoint` to capture final state before
 the PR is created.
 
@@ -106,6 +117,9 @@ Write a PR description with this structure:
 
 ## Decisions
 <reference any ADRs created, with one-line summaries>
+
+## Test Coverage Gaps
+<any untested new code flagged by the test gap check, or "None identified">
 
 ## Test Plan
 - [ ] <what to verify>

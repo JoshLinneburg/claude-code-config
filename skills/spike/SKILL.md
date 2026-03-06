@@ -8,7 +8,7 @@ description: >
 argument-hint: <topic or question to investigate>
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, Agent
+allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, Agent, Skill
 ---
 
 # Spike

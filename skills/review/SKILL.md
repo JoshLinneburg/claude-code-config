@@ -161,6 +161,18 @@ following. Do not skim. Read the code carefully.
 - If the code deviates from established patterns, is there a good reason?
   If not, align it.
 
+## Iteration Awareness
+
+Before starting the analysis, check if this is a follow-up review:
+- Run `git log --oneline -10` and look for recent commits with messages
+  like `fix:`, `refactor:`, or `style:` that appear to be review fixes
+  (especially commits made in the last few minutes)
+- If found, note which files were touched by those fix commits
+- During analysis, give extra scrutiny to those files — verify the fixes
+  are correct and didn't introduce new issues
+- This avoids treating every run as a blank slate when the skill is
+  designed to be run 2-3 times iteratively
+
 ## Aggregation & Fixes
 
 After all agents return (or after the sequential pass):

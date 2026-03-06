@@ -86,7 +86,7 @@ Skills for reviewing code, finding test gaps, and keeping documentation honest.
 
 **Usage:** `/review [focus area]`
 
-Critical self-review of the current branch's changes (diff against main). For diffs touching 3+ files, spawns 4 parallel read-only analysis agents — (1) correctness & scalability, (2) testability & readability, (3) naming & pattern adherence, (4) documentation & dead code — then aggregates findings and applies fixes sequentially. For smaller diffs, runs all 7 criteria in a single pass. Reads the project's CLAUDE.md and CONTRIBUTING.md for conventions. Designed to be run 2-3 times iteratively.
+Critical self-review of the current branch's changes (diff against main). For diffs touching 3+ files, spawns 4 parallel read-only analysis agents — (1) correctness & scalability, (2) testability & readability, (3) naming & pattern adherence, (4) documentation & dead code — then aggregates findings and applies fixes sequentially. For smaller diffs, runs all 7 criteria in a single pass. Reads the project's CLAUDE.md and CONTRIBUTING.md for conventions. Iteration-aware: on follow-up runs, gives extra scrutiny to files touched by recent review-fix commits. Designed to be run 2-3 times iteratively.
 
 [Full spec](review/SKILL.md)
 
@@ -124,7 +124,7 @@ Skills that automate multi-step development sequences.
 
 **Usage:** `/ship [base branch]`
 
-The "I'm done" button. In sequence: runs lint, type checks, tests, and build. Checks for uncommitted `.planning/decisions/`. Runs a targeted doc-drift check on changed files. Checkpoints the branch. Pushes and creates a PR via `gh` with a generated description that includes commit summary, decisions, and test plan. Will not skip verification.
+The "I'm done" button. In sequence: runs lint, type checks, tests, and build. Checks for uncommitted `.planning/decisions/`. Runs a report-only test-gap check and a targeted doc-drift check on changed files. Checkpoints the branch. Pushes and creates a PR via `gh` with a generated description that includes commit summary, decisions, test coverage gaps, and test plan. Will not skip verification.
 
 [Full spec](ship/SKILL.md)
 

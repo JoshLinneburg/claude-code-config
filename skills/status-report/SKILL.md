@@ -8,7 +8,7 @@ description: >
 argument-hint: ""
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Read, Glob
+allowed-tools: Bash(git *), Bash(gh *), Read, Glob
 ---
 
 # Status Report
