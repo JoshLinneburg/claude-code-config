@@ -2,13 +2,13 @@
 name: review
 description: >
   Critical code review of the current branch's changes. Run after completing
-  a significant chunk of work. Evaluates testability, scalability, readability,
-  documentation, pattern adherence, and correctness. Finds deficiencies and
-  fixes them — does not just report.
+  a significant chunk of work. Spawns 4 parallel analysis agents (correctness,
+  testability, naming, documentation) then aggregates findings and applies
+  fixes. Designed to be run 2-3 times iteratively.
 argument-hint: [optional focus area]
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, Bash(uv run *), Bash(pnpm *), Bash(npm run *)
+allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, Bash(uv run *), Bash(pnpm *), Bash(npm run *), Agent
 ---
 
 # Code Review
@@ -24,16 +24,81 @@ not a feel-good exercise. Code that doesn't meet the bar gets fixed.
    user what to review, or use `git diff HEAD~N --name-only` for recent
    commits.
 
-2. Read the project's CLAUDE.md and CONTRIBUTING.md if they exist — they define project-specific
-   patterns and conventions that this review must respect.
+2. Read the project's CLAUDE.md and CONTRIBUTING.md if they exist — they
+   define project-specific patterns and conventions that this review must
+   respect.
 
 3. If `$ARGUMENTS` was provided, use it to focus the review (e.g.,
    "review tests only", "review the extraction module").
 
-## Review Criteria
+4. Get the full diff: `git diff main` (for the analysis agents).
 
-For every changed file, evaluate against ALL of the following. Do not
-skim. Read the code carefully.
+## Parallel Analysis
+
+**If the diff touches fewer than 3 files**, skip the parallel agents and
+run all criteria sequentially in a single pass (the overhead of spawning
+4 agents isn't worth it for a small diff). Jump to the Review Criteria
+section below and evaluate all 7 criteria inline.
+
+**If the diff touches 3 or more files**, spawn 4 analysis agents in
+parallel. Each agent receives the list of changed files, the full diff,
+and the project's CLAUDE.md/CONTRIBUTING.md content. Each agent performs
+a **read-only** analysis — no edits, no fixes. Each returns a list of
+findings.
+
+### Agent 1: Correctness & Scalability
+Evaluate:
+- **Correctness** — Does it actually work? Trace the logic. Look for
+  off-by-one errors, unhandled edge cases, incorrect assumptions. Are
+  there race conditions, resource leaks, or error paths that silently fail?
+- **Scalability & Efficiency** — Are there unnecessary loops, redundant
+  computations, or O(n²) operations that could be O(n)? Are there
+  opportunities to use built-in language features instead of hand-rolled
+  logic? Will this code work correctly with 10x the current data volume?
+
+Return findings as a list, each with: file path, line number, severity
+(critical/moderate/minor), what's wrong (one sentence), and suggested fix.
+
+### Agent 2: Testability & Readability
+Evaluate:
+- **Testability** — Are tests testing actual behavior or just asserting
+  that mocks were called correctly? Is business logic mixed with I/O?
+  Are there new functions or code paths without test coverage? Do tests
+  cover error paths and edge cases, not just the happy path?
+- **Readability** — Can a human reason through this code without
+  consulting three other files? Are variable and function names
+  descriptive and unambiguous? Is there unnecessary cleverness? Are
+  complex operations broken into well-named steps?
+
+Return findings in the same format as Agent 1.
+
+### Agent 3: Naming & Pattern Adherence
+Evaluate:
+- **Naming & Conventions** — Are leading underscores used correctly
+  (only genuinely private/internal items)? Do names follow the project's
+  existing conventions? Are there magic numbers or strings that should
+  be named constants or enums?
+- **Pattern Adherence** — Does the code follow the patterns established
+  in this project (from CLAUDE.md, CONTRIBUTING.md, and surrounding
+  code)? If the code deviates from established patterns, is there a good
+  reason? If not, it should be aligned.
+
+Return findings in the same format as Agent 1.
+
+### Agent 4: Documentation & Dead Code
+Evaluate:
+- **Documentation** — Do public functions have docstrings/comments
+  explaining what they do, their parameters, and return values? Are
+  non-obvious design decisions explained with comments?
+- **Dead Code** — Is there dead code, commented-out code, or TODO
+  comments that should be resolved? Unused imports? Unreachable branches?
+
+Return findings in the same format as Agent 1.
+
+## Review Criteria (sequential fallback)
+
+If running sequentially (< 3 files), evaluate against ALL of the
+following. Do not skim. Read the code carefully.
 
 ### 1. Correctness
 - Does it actually work? Trace the logic. Look for off-by-one errors,
@@ -86,12 +151,24 @@ skim. Read the code carefully.
 - If the code deviates from established patterns, is there a good reason?
   If not, align it.
 
-## Output
+## Aggregation & Fixes
 
-For each issue found:
+After all agents return (or after the sequential pass):
+
+### 1. Deduplicate
+Multiple agents may flag the same issue from different angles. Merge
+duplicates, keeping the most specific description and the highest
+severity.
+
+### 2. Sort by severity
+Order: critical first, then moderate, then minor.
+
+### 3. Apply fixes
+For each finding, starting with critical:
 1. State what's wrong and why it matters (one sentence)
 2. Fix it immediately — edit the file
 
+### 4. Verify
 After all fixes are applied:
 1. Run the project's lint command if it exists
 2. Run the project's test suite if it exists

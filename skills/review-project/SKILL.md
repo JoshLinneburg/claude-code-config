@@ -43,7 +43,12 @@ Evaluate before reading individual files:
 - Does the directory structure match the project's CLAUDE.md and CONTRIBUTING.md descriptions?
 
 ### Phase 2: Module-by-Module Review
-For each module or major directory, use a subagent to review:
+
+For each module or major directory, launch a subagent. Independent modules
+should be reviewed in **parallel** (e.g., `packages/backend` and
+`packages/web` can be reviewed simultaneously).
+
+Each module subagent evaluates:
 - **Consistency** — Do all files in the module follow the same patterns?
   Same naming, same error handling, same test structure?
 - **Testability** — Is business logic separated from I/O? Are there
@@ -59,34 +64,67 @@ For each module or major directory, use a subagent to review:
 - **Type safety** — Full use of the language's type system. No `any`,
   no untyped public functions, no raw dicts where data classes belong.
 
+Each subagent returns a list of findings (file, line, severity, issue,
+suggested fix). Subagents do NOT apply fixes — they report only.
+
 ### Phase 3: Cross-Cutting Concerns
-After module reviews, evaluate:
-- **Dependency health** — Are dependencies up to date? Any known
-  vulnerabilities? Any unused dependencies?
-- **Configuration** — Are secrets properly externalized? Are there
-  hardcoded values that should be config?
-- **Test coverage gaps** — Are there entire modules or features with
-  no tests?
-- **Pattern inconsistency** — Does module A handle errors differently
-  from module B without a good reason?
-- **Documentation drift** — Do README, CLAUDE.md, and CONTRIBUTING.md
-  still match the code? Are there dead file paths, outdated commands,
-  or missing docs for new features? Use the same checks as `/doc-drift`
-  (dead references, outdated instructions, missing documentation,
-  cross-doc inconsistencies).
 
-## Output
+After module reviews complete, launch **4 parallel agents** for
+cross-cutting analysis. Each agent receives the module findings and
+project context.
 
-Compile findings into a structured report. For each finding:
+#### Agent A: Dependency Health
+- Are dependencies up to date? Any known vulnerabilities?
+- Any unused dependencies (declared but not imported)?
+- Are there duplicate dependencies at different versions?
+- Check for deprecated packages or packages with known CVEs
+
+#### Agent B: Test Coverage Gaps
+- Are there entire modules or features with no tests?
+- Are integration tests properly separated from unit tests?
+- Are test utilities and fixtures well-organized or duplicated?
+- Do test files follow consistent naming and structure?
+
+#### Agent C: Pattern Consistency
+- Does module A handle errors differently from module B without a
+  good reason?
+- Are naming conventions consistent across modules?
+- Are configuration patterns (env vars, settings objects) consistent?
+- Is there duplicated logic across modules that should be shared?
+
+#### Agent D: Documentation Drift
+- Do README, CLAUDE.md, and CONTRIBUTING.md still match the code?
+- Are there dead file paths, outdated commands, or missing docs for
+  new features?
+- Use the same checks as `/doc-drift` (dead references, outdated
+  instructions, missing documentation, cross-doc inconsistencies)
+- Are there new env vars, CLI commands, or scripts not documented?
+
+Each agent returns findings in the same format. Agents do NOT apply
+fixes — they report only.
+
+## Aggregation & Fixes
+
+After all agents return:
+
+### 1. Compile findings
+Merge results from Phase 2 module agents and Phase 3 cross-cutting
+agents into a single report. Deduplicate findings that multiple agents
+flagged from different angles.
+
+### 2. Report
+For each finding:
 1. **Location** — file and line number
 2. **Severity** — critical (breaks things), moderate (code smell),
    minor (style/consistency)
 3. **What's wrong** — one sentence
 4. **Fix** — either fix it directly or describe what needs to change
 
-After the report:
-- Fix all critical and moderate issues directly
+### 3. Apply fixes
+- Fix all critical and moderate issues directly, sequentially
 - List minor issues for the user to decide on
+
+### 4. Verify
 - Run lint and tests after all fixes
 - Provide a summary: overall health assessment, top 3 areas needing
   attention, and what was fixed

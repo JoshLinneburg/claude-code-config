@@ -86,7 +86,7 @@ Skills for reviewing code, finding test gaps, and keeping documentation honest.
 
 **Usage:** `/review [focus area]`
 
-Critical self-review of the current branch's changes (diff against main). Evaluates 7 criteria: correctness, testability, readability, naming, documentation, scalability, and pattern adherence. Reads the project's CLAUDE.md and CONTRIBUTING.md for conventions. Fixes issues directly. Designed to be run 2-3 times iteratively — each pass surfaces issues masked by the previous round's fixes.
+Critical self-review of the current branch's changes (diff against main). For diffs touching 3+ files, spawns 4 parallel read-only analysis agents — (1) correctness & scalability, (2) testability & readability, (3) naming & pattern adherence, (4) documentation & dead code — then aggregates findings and applies fixes sequentially. For smaller diffs, runs all 7 criteria in a single pass. Reads the project's CLAUDE.md and CONTRIBUTING.md for conventions. Designed to be run 2-3 times iteratively.
 
 [Full spec](review/SKILL.md)
 
@@ -94,7 +94,7 @@ Critical self-review of the current branch's changes (diff against main). Evalua
 
 **Usage:** `/review-project [module or directory]`
 
-Full codebase health check in three phases: architecture/structure evaluation, module-by-module review (using subagents for parallelism), and cross-cutting concerns (dependency health, test gaps, pattern inconsistency, documentation drift). Scoped to a module if specified. Fixes critical and moderate issues directly.
+Full codebase health check in three phases: (1) architecture/structure evaluation, (2) module-by-module review with parallel subagents per module, (3) cross-cutting concerns via 4 parallel agents — dependency health, test coverage gaps, pattern consistency, and documentation drift. All analysis agents are read-only; fixes are applied sequentially after aggregation. Scoped to a module if specified.
 
 [Full spec](review-project/SKILL.md)
 
