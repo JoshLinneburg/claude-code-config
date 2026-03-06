@@ -2,13 +2,28 @@
 
 Personal [Claude Code](https://docs.anthropic.com/en/docs/claude-code) configuration with a lightweight context persistence system and code quality workflow. No frameworks, no ceremony — just skills, hooks, and rules that help Claude remember things across sessions and maintain code quality.
 
+## Table of Contents
+
+- [What's In Here](#whats-in-here)
+- [Setup](#setup)
+- [Skills](#skills)
+  - [Context Persistence](#context-persistence)
+  - [Code Quality](#code-quality)
+  - [Workflow](#workflow)
+- [How It Works](#how-it-works)
+  - [The `.planning/` Directory](#the-planning-directory)
+  - [Hooks](#hooks)
+  - [Self-Improvement Loop](#self-improvement-loop)
+  - [Proactive Behavior](#proactive-behavior)
+- [What This Is Not](#what-this-is-not)
+
 ## What's In Here
 
-| File | Purpose |
+| Path | Purpose |
 |---|---|
-| `CLAUDE.md` | Working philosophy, code standards, implementation discipline, git workflow, and context persistence rules |
+| `CLAUDE.md` | Working philosophy, code standards, git workflow, and context persistence rules |
 | `settings.json` | Permission allowlist, deny list, and session lifecycle hooks |
-| `skills/` | Slash commands for context persistence, self-improvement, and code review |
+| [`skills/`](skills/README.md) | 14 slash commands for context persistence, code quality, and workflow automation |
 
 ## Setup
 
@@ -26,35 +41,38 @@ If you already have a `~/.claude` directory, back it up first — this will repl
 
 ## Skills
 
+Run `/init-planning` once per project (on your main branch, then commit) to enable context persistence. All other skills work immediately.
+
+For detailed documentation on each skill, see the [Skills Reference](skills/README.md).
+
 ### Context Persistence
 
-Run `/init-planning` once per project (on your main branch, then commit). After that:
-
-| Command | When to use |
+| Command | Purpose |
 |---|---|
-| `/load-context` | Start of a session — summarizes where you left off |
-| `/checkpoint [description]` | Save current state — Claude also invokes this on its own when it recognizes something important happened |
-| `/save-decision [title]` | Record an architectural decision (ADR format) |
-| `/log-lesson [description]` | Record a lesson after a correction — prevents the same mistake across sessions |
+| `/init-planning` | Set up `.planning/` in a project |
+| `/load-context` | Resume where you left off at session start |
+| `/checkpoint` | Save current branch state |
+| `/save-decision` | Record an architectural decision (ADR format) |
+| `/log-lesson` | Record a correction to prevent recurrence |
 | `/cleanup-planning` | Remove stale state files from merged branches |
 
 ### Code Quality
 
-| Command | When to use |
+| Command | Purpose |
 |---|---|
-| `/review [focus area]` | Critical self-review of the current branch's changes. Run after completing a chunk of work. Evaluates testability, scalability, readability, documentation, pattern adherence, and correctness. Fixes issues directly. Designed to be run 2-3 times iteratively. |
-| `/review-project [module]` | Full codebase health check. Evaluates architecture, consistency, and adherence to project standards. Scoped to a module or directory if specified. Use for periodic health checks or after major refactors. |
-| `/test-gap [write]` | Targeted test coverage analysis for the current branch's diff. Identifies untested functions and code paths. Pass "write" to auto-generate missing tests. Complements `/review` by focusing exclusively on coverage gaps. |
-| `/doc-drift [scope]` | Detect stale documentation. Compares README, CLAUDE.md, CONTRIBUTING.md against actual code. Finds dead references, outdated instructions, missing docs for new features, and cross-doc inconsistencies. Fixes high/medium issues directly. Also runs as a targeted check within `/ship`. |
+| `/review` | Branch diff code review (7 criteria, iterative) |
+| `/review-project` | Full codebase health check |
+| `/test-gap` | Test coverage analysis for branch changes |
+| `/doc-drift` | Documentation staleness detector |
 
 ### Workflow
 
-| Command | When to use |
+| Command | Purpose |
 |---|---|
-| `/ship [base branch]` | PR prep and submission. Runs lint, tests, build. Verifies `.planning/decisions/` are committed. Generates a PR description from commits and planning context. Creates the PR via `gh`. The "I'm done" button. |
-| `/worktree <branch>` | Spin up a parallel workspace. Creates a worktree in the project's `-worktrees/` sibling directory, installs dependencies, copies/symlinks env files. Checkpoints current branch before switching context. |
-| `/status-report` | Cross-branch dashboard. Shows all local branches and worktrees with last commit, uncommitted changes, and `.planning/` state summaries. The "where am I" glance. |
-| `/spike <topic>` | Structured technical investigation. Researches a topic, evaluates options, and produces a decision-ready document in `.planning/research/`. Use for Friday explorations, tool evaluations, or architectural questions. |
+| `/ship` | PR prep: lint, test, build, doc check, `gh pr create` |
+| `/worktree` | Parallel workspace with dep install and env setup |
+| `/status-report` | Cross-branch/worktree dashboard |
+| `/spike` | Structured technical investigation |
 
 ## How It Works
 
