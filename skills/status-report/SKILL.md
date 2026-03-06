@@ -1,5 +1,5 @@
 ---
-name: status
+name: status-report
 description: >
   Cross-branch situational awareness. Shows all local branches and worktrees
   for the current project with their last commit, age, uncommitted changes,
@@ -11,7 +11,7 @@ user-invocable: true
 allowed-tools: Bash(git *), Read, Glob
 ---
 
-# Status
+# Status Report
 
 Show a quick dashboard of all branches and worktrees for the current
 project.

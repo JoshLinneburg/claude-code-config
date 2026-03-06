@@ -52,7 +52,7 @@ Run `/init-planning` once per project (on your main branch, then commit). After 
 |---|---|
 | `/ship [base branch]` | PR prep and submission. Runs lint, tests, build. Verifies `.planning/decisions/` are committed. Generates a PR description from commits and planning context. Creates the PR via `gh`. The "I'm done" button. |
 | `/worktree <branch>` | Spin up a parallel workspace. Creates a worktree in the project's `-worktrees/` sibling directory, installs dependencies, copies/symlinks env files. Checkpoints current branch before switching context. |
-| `/status` | Cross-branch dashboard. Shows all local branches and worktrees with last commit, uncommitted changes, and `.planning/` state summaries. The "where am I" glance. |
+| `/status-report` | Cross-branch dashboard. Shows all local branches and worktrees with last commit, uncommitted changes, and `.planning/` state summaries. The "where am I" glance. |
 | `/spike <topic>` | Structured technical investigation. Researches a topic, evaluates options, and produces a decision-ready document in `.planning/research/`. Use for Friday explorations, tool evaluations, or architectural questions. |
 
 ## How It Works
