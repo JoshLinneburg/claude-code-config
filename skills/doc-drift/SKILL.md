@@ -8,7 +8,7 @@ description: >
 argument-hint: [optional file or directory to scope]
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Read, Edit, Glob, Grep, Agent
+allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, Agent
 ---
 
 # Doc Drift

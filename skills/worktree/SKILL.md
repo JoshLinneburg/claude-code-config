@@ -8,7 +8,7 @@ description: >
 argument-hint: <branch-name> [--from <base-branch>]
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Bash(uv *), Bash(pnpm *), Bash(npm *), Bash(cp *), Bash(ln *), Bash(ls *), Bash(mkdir *), Read, Glob, Grep
+allowed-tools: Bash(git *), Bash(uv *), Bash(pnpm *), Bash(npm *), Bash(cp *), Bash(ln *), Bash(ls *), Bash(mkdir *), Read, Glob, Grep, Skill
 ---
 
 # Worktree
