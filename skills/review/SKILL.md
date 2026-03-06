@@ -24,7 +24,7 @@ not a feel-good exercise. Code that doesn't meet the bar gets fixed.
    user what to review, or use `git diff HEAD~N --name-only` for recent
    commits.
 
-2. Read the project's CLAUDE.md if it exists — it defines project-specific
+2. Read the project's CLAUDE.md and CONTRIBUTING.md if they exist — they define project-specific
    patterns and conventions that this review must respect.
 
 3. If `$ARGUMENTS` was provided, use it to focus the review (e.g.,
@@ -82,7 +82,7 @@ skim. Read the code carefully.
 
 ### 7. Pattern Adherence
 - Does the code follow the patterns established in this project? Check
-  the project's CLAUDE.md and surrounding code for conventions.
+  the project's CLAUDE.md, CONTRIBUTING.md, and surrounding code for conventions.
 - If the code deviates from established patterns, is there a good reason?
   If not, align it.
 

@@ -43,6 +43,17 @@ Run `/init-planning` once per project (on your main branch, then commit). After 
 | Command | When to use |
 |---|---|
 | `/review [focus area]` | Critical self-review of the current branch's changes. Run after completing a chunk of work. Evaluates testability, scalability, readability, documentation, pattern adherence, and correctness. Fixes issues directly. Designed to be run 2-3 times iteratively. |
+| `/review-project [module]` | Full codebase health check. Evaluates architecture, consistency, and adherence to project standards. Scoped to a module or directory if specified. Use for periodic health checks or after major refactors. |
+| `/test-gap [write]` | Targeted test coverage analysis for the current branch's diff. Identifies untested functions and code paths. Pass "write" to auto-generate missing tests. Complements `/review` by focusing exclusively on coverage gaps. |
+
+### Workflow
+
+| Command | When to use |
+|---|---|
+| `/ship [base branch]` | PR prep and submission. Runs lint, tests, build. Verifies `.planning/decisions/` are committed. Generates a PR description from commits and planning context. Creates the PR via `gh`. The "I'm done" button. |
+| `/worktree <branch>` | Spin up a parallel workspace. Creates a worktree in the project's `-worktrees/` sibling directory, installs dependencies, copies/symlinks env files. Checkpoints current branch before switching context. |
+| `/status` | Cross-branch dashboard. Shows all local branches and worktrees with last commit, uncommitted changes, and `.planning/` state summaries. The "where am I" glance. |
+| `/spike <topic>` | Structured technical investigation. Researches a topic, evaluates options, and produces a decision-ready document in `.planning/research/`. Use for Friday explorations, tool evaluations, or architectural questions. |
 
 ## How It Works
 
