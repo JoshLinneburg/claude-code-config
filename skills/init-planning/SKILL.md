@@ -5,7 +5,7 @@ description: >
   Run this once on the main branch, then commit. Worktrees inherit it.
   Branch switching is handled automatically via branch-named state files.
 argument-hint: [optional project description]
-disable-model-invocation: false
+disable-model-invocation: true
 user-invocable: true
 allowed-tools: Bash(mkdir *), Bash(git *), Write, Read, Glob
 ---

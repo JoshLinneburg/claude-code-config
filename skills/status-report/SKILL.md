@@ -8,6 +8,7 @@ description: >
 argument-hint: ""
 disable-model-invocation: false
 user-invocable: true
+context: fork
 allowed-tools: Bash(git *), Bash(gh *), Read, Glob
 ---
 
@@ -16,43 +17,45 @@ allowed-tools: Bash(git *), Bash(gh *), Read, Glob
 Show a quick dashboard of all branches and worktrees for the current
 project.
 
+## Pre-loaded Data
+
+**Project root:** !`git rev-parse --show-toplevel 2>/dev/null || echo "(not a git repo)"`
+
+**Current branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+
+**Worktrees:**
+!`git worktree list 2>/dev/null || echo "(no worktrees)"`
+
+**Branches:**
+!`git branch --format='%(refname:short)|%(committerdate:relative)|%(subject)' 2>/dev/null`
+
+**Remote tracking:**
+!`git branch -vv --format='%(refname:short)|%(upstream:track)' 2>/dev/null`
+
 ## Steps
 
-### 1. Project context
-Get the project root (`git rev-parse --show-toplevel`) and project name.
-Get the current branch (`git rev-parse --abbrev-ref HEAD`).
+### 1. Parse pre-loaded data
+The git data above was gathered automatically. Use it to build the
+dashboard. If any section shows an error, skip that section.
 
-### 2. List all worktrees
-Run `git worktree list` to find all worktrees. For each one, note:
-- Path
-- Branch
-- Whether it's the main worktree or an added one
-
-### 3. List local branches
-Run `git branch --format='%(refname:short)|%(committerdate:relative)|%(subject)'`
-to get each branch's last commit date and message.
-
-Also run `git branch -vv --format='%(refname:short)|%(upstream:track)'`
-to check which branches are ahead/behind their remote.
-
-### 4. Check for uncommitted changes
+### 2. Check for uncommitted changes
 For the current worktree, run `git status --porcelain` to check for
 uncommitted changes.
 
 For other worktrees, run `git -C <worktree-path> status --porcelain`
 to check each one. If a worktree path no longer exists, note it as stale.
 
-### 5. Read state file summaries
+### 3. Read state file summaries
 If `.planning/` exists, read each `STATE-*.md` file's first 5-10 lines
 to extract the summary/status. Map each state file to its branch using
-the slug convention (branch name with `/` → `-`).
+the slug convention (branch name with `/` replaced by `-`).
 
-### 6. Check CI status (optional)
+### 4. Check CI status (optional)
 If `gh` is available, run `gh pr list --head <branch> --json number,title,statusCheckRollup --limit 1`
 for each branch that has a remote to see if there's an open PR and its
 CI status. If `gh` isn't configured, skip this silently.
 
-### 7. Output
+### 5. Output
 
 Format as a clean dashboard. Example:
 
@@ -80,7 +83,7 @@ PROJECT: wembly (~/projects/wembly)
 Adapt the format to what information is actually available. Don't show
 sections that have no content (e.g., skip WORKTREES if there are none).
 
-### 8. Stale branch hint
+### 6. Stale branch hint
 If there are branches with no commits in the last 30 days, add a note
 at the bottom: "N branches with no activity in 30+ days. Consider
 cleaning up."

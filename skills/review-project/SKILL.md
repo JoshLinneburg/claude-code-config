@@ -48,60 +48,17 @@ For each module or major directory, launch a subagent. Independent modules
 should be reviewed in **parallel** (e.g., `packages/backend` and
 `packages/web` can be reviewed simultaneously).
 
-Each module subagent evaluates:
-- **Consistency** — Do all files in the module follow the same patterns?
-  Same naming, same error handling, same test structure?
-- **Testability** — Is business logic separated from I/O? Are there
-  untested code paths? Are tests testing behavior or just mocks?
-- **Naming** — Leading underscores only on genuinely private/internal
-  items. No magic strings. Descriptive names.
-- **Dead code** — Unused imports, unreachable branches, commented-out
-  code, orphaned files.
-- **Documentation** — Public APIs documented. Non-obvious logic explained.
-  Stale docs that no longer match the code.
-- **Error handling** — Consistent patterns. No silently swallowed errors.
-  Validation at boundaries.
-- **Type safety** — Full use of the language's type system. No `any`,
-  no untyped public functions, no raw dicts where data classes belong.
-
-Each subagent returns a list of findings (file, line, severity, issue,
-suggested fix). Subagents do NOT apply fixes — they report only.
+Read `${CLAUDE_SKILL_DIR}/module-checklist.md` for the detailed review
+criteria each module subagent should evaluate. Subagents do NOT apply
+fixes — they report only.
 
 ### Phase 3: Cross-Cutting Concerns
 
-After module reviews complete, launch **4 parallel agents** for
-cross-cutting analysis. Each agent receives the module findings and
-project context.
-
-#### Agent A: Dependency Health
-- Are dependencies up to date? Any known vulnerabilities?
-- Any unused dependencies (declared but not imported)?
-- Are there duplicate dependencies at different versions?
-- Check for deprecated packages or packages with known CVEs
-
-#### Agent B: Test Coverage Gaps
-- Are there entire modules or features with no tests?
-- Are integration tests properly separated from unit tests?
-- Are test utilities and fixtures well-organized or duplicated?
-- Do test files follow consistent naming and structure?
-
-#### Agent C: Pattern Consistency
-- Does module A handle errors differently from module B without a
-  good reason?
-- Are naming conventions consistent across modules?
-- Are configuration patterns (env vars, settings objects) consistent?
-- Is there duplicated logic across modules that should be shared?
-
-#### Agent D: Documentation Drift
-- Do README, CLAUDE.md, and CONTRIBUTING.md still match the code?
-- Are there dead file paths, outdated commands, or missing docs for
-  new features?
-- Use the same checks as `/doc-drift` (dead references, outdated
-  instructions, missing documentation, cross-doc inconsistencies)
-- Are there new env vars, CLI commands, or scripts not documented?
-
-Each agent returns findings in the same format. Agents do NOT apply
-fixes — they report only.
+After module reviews complete, read
+`${CLAUDE_SKILL_DIR}/cross-cutting-agents.md` for the 4 parallel agent
+descriptions. Launch them with the module findings and project context.
+Each agent performs **read-only** analysis and returns findings — no
+fixes applied.
 
 ## Aggregation & Fixes
 

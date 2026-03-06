@@ -1,0 +1,36 @@
+# Cross-Cutting Analysis Agents
+
+Launch these 4 agents in parallel after module reviews complete. Each
+agent receives the module findings and project context. Each performs
+**read-only** analysis and returns findings — no fixes applied.
+
+## Agent A: Dependency Health
+
+- Are dependencies up to date? Any known vulnerabilities?
+- Any unused dependencies (declared but not imported)?
+- Are there duplicate dependencies at different versions?
+- Check for deprecated packages or packages with known CVEs
+
+## Agent B: Test Coverage Gaps
+
+- Are there entire modules or features with no tests?
+- Are integration tests properly separated from unit tests?
+- Are test utilities and fixtures well-organized or duplicated?
+- Do test files follow consistent naming and structure?
+
+## Agent C: Pattern Consistency
+
+- Does module A handle errors differently from module B without a
+  good reason?
+- Are naming conventions consistent across modules?
+- Are configuration patterns (env vars, settings objects) consistent?
+- Is there duplicated logic across modules that should be shared?
+
+## Agent D: Documentation Drift
+
+- Do README, CLAUDE.md, and CONTRIBUTING.md still match the code?
+- Are there dead file paths, outdated commands, or missing docs for
+  new features?
+- Use the same checks as `/doc-drift` (dead references, outdated
+  instructions, missing documentation, cross-doc inconsistencies)
+- Are there new env vars, CLI commands, or scripts not documented?

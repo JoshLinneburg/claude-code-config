@@ -14,57 +14,65 @@ allowed-tools: Read, Glob, Bash(git *)
 Read and summarize the current project state so we can pick up where we
 left off.
 
-## Branch Resolution
+## Pre-loaded Data
 
-State files are branch-specific:
+The following data was gathered automatically. If any section shows an
+error or "not found", that data is unavailable.
 
-1. Get the current branch: `git rev-parse --abbrev-ref HEAD`
-2. Create a slug by replacing `/` with `-`
-3. The state file is `.planning/STATE-<slug>.md`
+**Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "(not a git repo)"`
+
+**Git status:**
+!`git status --porcelain 2>/dev/null | head -20 || echo "(not a git repo)"`
+
+**State file:**
+!`cat ".planning/STATE-$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-').md" 2>/dev/null || echo "(no state file for this branch)"`
+
+**Lessons:**
+!`cat .planning/lessons.md 2>/dev/null || echo "(no lessons file)"`
+
+**Decision files:**
+!`ls -1t .planning/decisions/ 2>/dev/null | grep -v .gitkeep | head -10 || echo "(no decisions)"`
+
+**Research files:**
+!`ls -1 .planning/research/ 2>/dev/null | grep -v .gitkeep || echo "(no research)"`
+
+**Recent session for this branch:**
+!`SLUG=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); ls -1t .planning/sessions/*${SLUG}* 2>/dev/null | head -1 | xargs cat 2>/dev/null || echo "(no session files for this branch)"`
+
+**All state files (for stale check):**
+!`ls -1 .planning/STATE-*.md 2>/dev/null || echo "(none)"`
+
+**Local branches:**
+!`git branch --format='%(refname:short)' 2>/dev/null || echo "(not a git repo)"`
 
 ## Steps
 
-1. Check if `.planning/` directory exists. If not, tell the user they can
-   run `/init-planning` to set it up and stop here.
+1. If the pre-loaded data shows "(not a git repo)" or `.planning/`
+   doesn't exist, tell the user they can run `/init-planning` and stop.
 
-2. Resolve the current branch and state file path (see Branch Resolution).
+2. Review the pre-loaded state file. If it shows "(no state file for this
+   branch)", note that this branch hasn't been checkpointed yet. Mention
+   which other branches have state (from the state files listing).
 
-3. Read the branch-specific state file if it exists. If it doesn't exist
-   but `.planning/` does, note that this branch hasn't been checkpointed
-   yet. Optionally check if other `STATE-*.md` files exist and mention
-   which branches do have saved state.
+3. Read the 3 most recent decision files listed above. These are tracked
+   in git and represent project-wide decisions.
 
-4. List files in `.planning/decisions/` and read the 3 most recent (by
-   filename date prefix).
+4. If a session file was loaded above, incorporate its context.
 
-5. List files in `.planning/sessions/` and read the most recent for
-   this branch (matching the branch slug in the filename), if any exist.
+5. Check for stale state files: compare the state file slugs against the
+   local branch list (with `/` replaced by `-`). If any don't match a
+   current branch, note it.
 
-6. List files in `.planning/research/` and mention what topics have been
-   researched (don't read them all — just list them so the user knows
-   what's available).
-
-7. Check current git branch and whether there are uncommitted changes.
-
-8. Read `.planning/lessons.md` if it exists. These are rules derived from
-   past corrections — include them in your summary under a "Lessons"
-   heading so they are fresh in context. These are NOT optional reading.
-
-9. Provide a **brief** summary (not a wall of text) structured as:
+6. Provide a **brief** summary (not a wall of text) structured as:
    - What branch we're on
-   - Where we left off (from state file, or "no prior state for this branch")
-   - Key decisions that are in effect (from decisions/)
-   - Available research topics (from research/)
-   - What the recommended next steps are
-   - Any open questions or blockers that need resolution
-   - Lessons learned (from lessons.md — list them so they're in context)
-
-10. Check for stale state files: list all `STATE-*.md` files, compare
-   their slugs against current local branches
-   (`git branch --format='%(refname:short)'` with `/` → `-`). If any
-   stale files are found, mention it at the end:
-   "N stale state file(s) from merged branches. Run /cleanup-planning
-   to review and remove them."
-   Don't belabor it — just a one-line note.
+   - Where we left off (from state file, or "no prior state")
+   - Key decisions in effect (from the decision files you read)
+   - Available research topics (from the listing)
+   - Recommended next steps
+   - Open questions or blockers
+   - Lessons learned (from the pre-loaded lessons — list them so they're
+     in context)
+   - Stale state files (one-line note if any: "N stale state file(s).
+     Run /cleanup-planning to review.")
 
 Do not parrot the files back verbatim. Synthesize and summarize.

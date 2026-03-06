@@ -4,7 +4,7 @@ description: >
   Find and remove stale .planning/ state and session files for branches
   that no longer exist locally. Checks for important unsaved context
   before deleting anything.
-disable-model-invocation: false
+disable-model-invocation: true
 user-invocable: true
 allowed-tools: Read, Glob, Bash(git *), Bash(rm *), Write
 ---

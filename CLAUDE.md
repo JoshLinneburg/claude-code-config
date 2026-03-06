@@ -5,6 +5,7 @@
 - Do not jump to implementation. Understand the problem, constraints, and risks before writing code.
 - Deviations from best practice require a good reason. If we're doing something non-standard, call it out.
 - NEVER execute a destructive action without explicit confirmation. Database changes, data loss, force pushes, irreversible operations — ask first, every time.
+- **Run commands from the current working directory.** Do not prefix commands with `cd /path &&` when already inside the project. Bare commands (`git push`, `uv run pytest`, `npm test`) work fine and avoid forcing re-approval in the permission system.
 
 ## Design Principles
 

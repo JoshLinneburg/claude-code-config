@@ -6,7 +6,7 @@ description: >
   copies environment files, and optionally checkpoints the current branch
   before switching context.
 argument-hint: <branch-name> [--from <base-branch>]
-disable-model-invocation: false
+disable-model-invocation: true
 user-invocable: true
 allowed-tools: Bash(git *), Bash(uv *), Bash(pnpm *), Bash(npm *), Bash(cp *), Bash(ln *), Bash(ls *), Bash(mkdir *), Read, Glob, Grep, Skill
 ---

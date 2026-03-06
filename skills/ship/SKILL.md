@@ -5,7 +5,7 @@ description: >
   decisions are committed. Generates a PR description from branch commits
   and planning context. Creates the PR via gh. The "I'm done" button.
 argument-hint: [optional base branch, defaults to main]
-disable-model-invocation: false
+disable-model-invocation: true
 user-invocable: true
 allowed-tools: Bash(git *), Bash(gh *), Bash(uv run *), Bash(pnpm *), Bash(npm run *), Bash(npx *), Read, Glob, Grep, Skill
 ---

@@ -8,6 +8,7 @@ description: >
 argument-hint: [optional file or directory to scope]
 disable-model-invocation: false
 user-invocable: true
+context: fork
 allowed-tools: Bash(git *), Read, Write, Edit, Glob, Grep, Agent
 ---
 
