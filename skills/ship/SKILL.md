@@ -64,7 +64,21 @@ build-time issues that lint and tests miss.
 Check if `.planning/decisions/` has any uncommitted or untracked files.
 If so, stage and commit them — they should travel with the PR.
 
-### 2b. State file current
+### 2b. Doc drift check
+Run a lightweight doc-drift check scoped to this branch's changes:
+- Get the list of changed files (`git diff <base> --name-only`)
+- For each changed source directory, check if its README or relevant
+  docs still match (e.g., if `packages/backend/src/routes/` changed,
+  check that the backend README's endpoint docs are still accurate)
+- Check that any new environment variables, CLI commands, or scripts
+  introduced by this branch are documented
+- Fix any High severity drift directly. Note Medium issues in the PR
+  description under a "Documentation" section.
+
+This is a targeted check, not a full `/doc-drift` run. Only inspect docs
+related to the files that changed on this branch.
+
+### 2c. State file current
 If `.planning/` exists, run `/checkpoint` to capture final state before
 the PR is created.
 

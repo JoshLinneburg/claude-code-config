@@ -45,6 +45,7 @@ Run `/init-planning` once per project (on your main branch, then commit). After 
 | `/review [focus area]` | Critical self-review of the current branch's changes. Run after completing a chunk of work. Evaluates testability, scalability, readability, documentation, pattern adherence, and correctness. Fixes issues directly. Designed to be run 2-3 times iteratively. |
 | `/review-project [module]` | Full codebase health check. Evaluates architecture, consistency, and adherence to project standards. Scoped to a module or directory if specified. Use for periodic health checks or after major refactors. |
 | `/test-gap [write]` | Targeted test coverage analysis for the current branch's diff. Identifies untested functions and code paths. Pass "write" to auto-generate missing tests. Complements `/review` by focusing exclusively on coverage gaps. |
+| `/doc-drift [scope]` | Detect stale documentation. Compares README, CLAUDE.md, CONTRIBUTING.md against actual code. Finds dead references, outdated instructions, missing docs for new features, and cross-doc inconsistencies. Fixes high/medium issues directly. Also runs as a targeted check within `/ship`. |
 
 ### Workflow
 

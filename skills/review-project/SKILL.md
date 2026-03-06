@@ -69,6 +69,11 @@ After module reviews, evaluate:
   no tests?
 - **Pattern inconsistency** — Does module A handle errors differently
   from module B without a good reason?
+- **Documentation drift** — Do README, CLAUDE.md, and CONTRIBUTING.md
+  still match the code? Are there dead file paths, outdated commands,
+  or missing docs for new features? Use the same checks as `/doc-drift`
+  (dead references, outdated instructions, missing documentation,
+  cross-doc inconsistencies).
 
 ## Output
 
