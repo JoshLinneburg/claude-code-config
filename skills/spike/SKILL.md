@@ -63,8 +63,8 @@ Use ALL relevant sources. Do not stop after one:
   needed), API references
 - **Web research:** Use WebSearch for current best practices, blog posts,
   official recommendations. Focus on authoritative sources (official docs,
-  core maintainer posts, well-known engineering blogs). Prefer 2025-2026
-  content when available.
+  core maintainer posts, well-known engineering blogs). Prefer recent content (within the last 1-2 years)
+  when available.
 - **Comparisons:** If evaluating alternatives, research each one
   individually. Don't rely on a single comparison article.
 

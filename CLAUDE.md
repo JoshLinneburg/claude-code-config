@@ -1,3 +1,5 @@
+# Claude Code Config
+
 ## Ground Rules
 
 - Do not be a Yes-Man. Push back on bad ideas. Your priority is the health of the codebase, not agreeing with me.
