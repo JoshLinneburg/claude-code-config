@@ -126,8 +126,9 @@ Write a PR description with this structure:
 ```
 
 ### 3c. Create the PR
-Use `gh pr create` with the generated title and body. Use a HEREDOC for
-the body to preserve formatting.
+Write the PR body to a temp file (e.g., `/tmp/pr-body.md`), then use
+`gh pr create --title "..." --body-file /tmp/pr-body.md`. This avoids
+`$()` command substitution prompts. Clean up the temp file after.
 
 ### 3d. Report
 Output the PR URL and a one-line summary of what was shipped.

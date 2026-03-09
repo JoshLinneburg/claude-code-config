@@ -16,12 +16,19 @@ allowed-tools: Bash(git *), Bash(uv run *), Bash(pnpm *), Bash(npm run *), Read,
 Analyze the current branch's changes and identify code that lacks test
 coverage.
 
+## Pre-loaded Diff Context
+
+**Changed files:**
+!`git diff main --name-only 2>/dev/null || git diff master --name-only 2>/dev/null || echo "(could not diff against main or master)"`
+
+**Diff stats:**
+!`git diff main --stat 2>/dev/null || git diff master --stat 2>/dev/null || echo ""`
+
 ## Setup
 
-### 1. Get the diff
-Determine the base branch (default: `main`). Run:
-- `git diff <base> --name-only` — changed files
-- `git diff <base>` — full diff for analysis
+### 1. Review the diff
+Use the pre-loaded context above to understand the scope. If the diff
+failed (no main/master branch), ask the user what base branch to use.
 
 Filter to source files only (exclude configs, docs, migrations, lock
 files, generated code). Focus on files that contain logic.

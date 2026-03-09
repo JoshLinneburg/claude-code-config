@@ -29,6 +29,15 @@ agent receives the module findings and project context. Each performs
   JS, list comprehensions vs explicit accumulation in Python)?
 - Are configuration patterns (env vars, settings objects) consistent?
 - Is there duplicated logic across modules that should be shared?
+- **Security at system boundaries** — across modules, is user input
+  consistently validated before use in queries, commands, file paths,
+  or output? Are auth checks applied consistently? Are secrets handled
+  the same way (env vars, not hardcoded)? One module doing it right
+  and another doing it wrong is a pattern consistency failure.
+- **Observability consistency** — are logging patterns consistent
+  across modules? Same log format, same error context, same level
+  conventions? Is one module using structured logging while another
+  uses bare print statements?
 
 ## Agent D: Documentation Drift
 

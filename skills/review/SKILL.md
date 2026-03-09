@@ -56,7 +56,7 @@ Check the pre-loaded recent commits for review-fix patterns:
 ## Analysis Strategy
 
 **If the diff touches fewer than 3 files**, read
-`${CLAUDE_SKILL_DIR}/criteria.md` for the 7 review criteria and evaluate
+`${CLAUDE_SKILL_DIR}/criteria.md` for the 9 review criteria and evaluate
 all of them in a single sequential pass.
 
 **If the diff touches 3 or more files**, read
@@ -78,9 +78,13 @@ severity.
 Order: critical first, then moderate, then minor.
 
 ### 3. Apply fixes
-For each finding, starting with critical:
+For critical and moderate findings:
 1. State what's wrong and why it matters (one sentence)
-2. Fix it immediately — edit the file
+2. Fix it — edit the file
+
+For minor findings:
+1. List them with file, line, and a one-sentence description
+2. Do NOT auto-fix — present them for the user to decide on
 
 ### 4. Verify
 After all fixes are applied:

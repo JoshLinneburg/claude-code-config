@@ -12,7 +12,7 @@ Complete reference for all Claude Code skills in this configuration. Each skill 
   - [`/log-lesson`](#log-lesson) — Record a correction
   - [`/cleanup-planning`](#cleanup-planning) — Remove stale state files
 - [Code Quality](#code-quality)
-  - [`/review`](#review) — Branch diff code review
+  - [`/review`](#review) (aka [`/josh-test`](#josh-test)) — Branch diff code review
   - [`/review-project`](#review-project) — Full codebase health check
   - [`/test-gap`](#test-gap) — Test coverage analysis
   - [`/doc-drift`](#doc-drift) — Documentation staleness detector
@@ -87,8 +87,11 @@ Skills for reviewing code, finding test gaps, and keeping documentation honest.
 ### `/review`
 
 **Usage:** `/review [focus area]`
+**Alias:** `/josh-test`
 
-Critical self-review of the current branch's changes (diff against main). Uses dynamic context injection to pre-load changed files, diff stats, and recent commits before analysis begins. For diffs touching 3+ files, reads [`agents.md`](review/agents.md) and spawns 4 parallel read-only analysis agents — (1) correctness & scalability, (2) testability & readability, (3) naming & pattern adherence, (4) documentation & dead code. For smaller diffs, reads [`criteria.md`](review/criteria.md) and runs all 7 criteria in a single pass. Iteration-aware: on follow-up runs, gives extra scrutiny to files touched by recent review-fix commits. Designed to be run 2-3 times iteratively.
+Critical self-review of the current branch's changes (diff against main). Uses dynamic context injection to pre-load changed files, diff stats, and recent commits before analysis begins. For diffs touching 3+ files, reads [`agents.md`](review/agents.md) and spawns 4 parallel read-only analysis agents — (1) correctness, scalability & security, (2) testability & readability, (3) naming & pattern adherence, (4) documentation & dead code. For smaller diffs, reads [`criteria.md`](review/criteria.md) and runs all 9 criteria in a single pass. Auto-fixes critical and moderate findings; lists minor findings for the user to decide on. Iteration-aware: on follow-up runs, gives extra scrutiny to files touched by recent review-fix commits. Designed to be run 2-3 times iteratively.
+
+Review criteria: correctness, testability, readability, naming & conventions, documentation, scalability, security, observability, pattern adherence.
 
 Supporting files:
 - [`agents.md`](review/agents.md) — Parallel agent prompts (loaded only for 3+ file diffs)
@@ -100,7 +103,7 @@ Supporting files:
 
 **Usage:** `/review-project [module or directory]`
 
-Full codebase health check in three phases: (1) architecture/structure evaluation, (2) module-by-module review using [`module-checklist.md`](review-project/module-checklist.md) with parallel subagents per module, (3) cross-cutting concerns via 4 parallel agents defined in [`cross-cutting-agents.md`](review-project/cross-cutting-agents.md) — dependency health, test coverage gaps, pattern consistency, and documentation drift. All analysis agents are read-only; fixes are applied sequentially after aggregation. Scoped to a module if specified.
+Full codebase health check in three phases: (1) architecture/structure evaluation, (2) module-by-module review using [`module-checklist.md`](review-project/module-checklist.md) with parallel subagents per module (consistency, testability, naming, dead code, documentation, error handling, type safety, security, observability), (3) cross-cutting concerns via 4 parallel agents defined in [`cross-cutting-agents.md`](review-project/cross-cutting-agents.md) — dependency health, test coverage gaps, pattern consistency & security, and documentation drift. All analysis agents are read-only; fixes are applied sequentially after aggregation. Scoped to a module if specified.
 
 Supporting files:
 - [`module-checklist.md`](review-project/module-checklist.md) — Per-module review criteria
@@ -112,7 +115,7 @@ Supporting files:
 
 **Usage:** `/test-gap [write]`
 
-Analyzes the current branch's diff to find functions and code paths that lack test coverage. Categorizes each as covered, partially covered, uncovered, or untestable-as-written. Prioritizes by severity. Pass `write` to auto-generate missing tests following the project's conventions. Explicitly rejects mock-only assertions as "covered."
+Analyzes the current branch's diff to find functions and code paths that lack test coverage. Uses dynamic context injection to pre-load changed files and diff stats. Categorizes each as covered, partially covered, uncovered, or untestable-as-written. Prioritizes by severity. Pass `write` to auto-generate missing tests following the project's conventions. Explicitly rejects mock-only assertions as "covered."
 
 [Full spec](test-gap/SKILL.md)
 

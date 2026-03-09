@@ -60,7 +60,43 @@ Evaluate against ALL of the following. Do not skim. Read the code carefully.
   hand-rolled logic?
 - Will this code work correctly with 10x the current data volume?
 
-## 7. Pattern Adherence
+## 7. Security
+- Is user input validated and sanitized before use in SQL queries, shell
+  commands, file paths, or HTML output? Look for injection vectors:
+  SQL injection (use parameterized queries), command injection (avoid
+  shell interpolation of user data), XSS (encode output), path traversal
+  (canonicalize and restrict paths).
+- Are API keys, tokens, credentials, or secrets hardcoded or logged?
+  Check for secrets in string literals, environment variable defaults,
+  and log/print statements.
+- Are authentication and authorization checks in place? Can a user
+  access or modify another user's data by manipulating IDs or parameters?
+- Is untrusted data deserialized without validation (e.g., `pickle.loads`,
+  `eval`, `JSON.parse` into executable contexts)?
+- Only flag issues at system boundaries — user input, external API
+  responses, file I/O. Do not flag internal function calls between
+  trusted modules.
+
+## 8. Observability
+- Can you debug this code in production without attaching a debugger?
+  If something goes wrong, will the logs tell you what happened?
+- Are errors logged with enough context to diagnose? An error log
+  that says "failed" is useless — include what was attempted, what
+  input triggered it, and why it failed.
+- Are log levels appropriate? ERROR for failures needing attention,
+  WARN for recoverable issues, INFO for significant business events,
+  DEBUG for development detail. Don't log happy-path noise at INFO.
+- Is sensitive data kept out of logs? PII, tokens, passwords, auth
+  headers, and full LLM prompts/completions should be redacted or
+  omitted.
+- For LLM/AI API calls: are token usage, latency, and model version
+  observable? Untracked LLM calls make cost overruns invisible.
+- Silent catch blocks that swallow exceptions without logging are
+  bugs. At minimum, log the error.
+- Don't flag logging gaps in test code, scripts, or one-off utilities.
+  Focus on production code paths.
+
+## 9. Pattern Adherence
 - Does the code follow the patterns established in this project? Check
   the project's CLAUDE.md, CONTRIBUTING.md, and surrounding code for conventions.
 - If the code deviates from established patterns, is there a good reason?

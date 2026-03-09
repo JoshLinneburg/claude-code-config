@@ -65,7 +65,7 @@ For detailed documentation on each skill, see the [Skills Reference](skills/READ
 
 | Command | Purpose |
 |---|---|
-| `/review` | Branch diff code review (7 criteria, iterative) |
+| `/review` (aka `/josh-test`) | Branch diff code review (9 criteria, iterative) |
 | `/review-project` | Full codebase health check |
 | `/test-gap` | Test coverage analysis for branch changes |
 | `/doc-drift` | Documentation staleness detector |

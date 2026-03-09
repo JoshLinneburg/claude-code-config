@@ -5,7 +5,7 @@ the full diff, and the project's CLAUDE.md/CONTRIBUTING.md content. Each
 performs a **read-only** analysis — no edits, no fixes. Each returns a list
 of findings.
 
-## Agent 1: Correctness & Scalability
+## Agent 1: Correctness, Scalability & Security
 
 Evaluate:
 - **Correctness** — Does it actually work? Trace the logic. Look for
@@ -15,6 +15,19 @@ Evaluate:
   computations, or O(n^2) operations that could be O(n)? Are there
   opportunities to use built-in language features instead of hand-rolled
   logic? Will this code work correctly with 10x the current data volume?
+- **Security** — At system boundaries (user input, external APIs, file
+  I/O), is data validated before use in SQL queries, shell commands,
+  file paths, or HTML output? Are secrets hardcoded or logged? Are
+  auth checks in place? Is untrusted data deserialized without
+  validation (`pickle.loads`, `eval`, unvalidated `JSON.parse`)?
+  Do not flag internal calls between trusted modules.
+- **Observability** — Can you debug this code in production? Are errors
+  logged with enough context to diagnose (what was attempted, what
+  input triggered it, why it failed)? Are log levels appropriate
+  (ERROR/WARN/INFO/DEBUG)? Is sensitive data kept out of logs? For
+  LLM/AI API calls, are token usage, latency, and model version
+  observable? Silent catch blocks that swallow exceptions without
+  logging are bugs. Focus on production code paths, not tests/scripts.
 
 Return findings as a list, each with: file path, line number, severity
 (critical/moderate/minor), what's wrong (one sentence), and suggested fix.
