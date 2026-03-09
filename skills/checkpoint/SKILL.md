@@ -8,7 +8,7 @@ description: >
 argument-hint: [brief description of what happened]
 disable-model-invocation: false
 user-invocable: true
-allowed-tools: Bash(git *), Bash(mkdir *), Write, Read, Glob
+allowed-tools: Bash(git *), Bash(mkdir *), Write, Read, Glob, Skill
 ---
 
 # Checkpoint
@@ -68,29 +68,8 @@ also works correctly with worktrees.
    ```
 
 5. If a specific architectural or design decision was made during this work,
-   also write a decision record to `.planning/decisions/[date]-[slug].md`
-   using the ADR format. Decision records ARE tracked in git — they will
-   propagate to other branches on merge. This is intentional.
-
-   ```markdown
-   # [Title]
-
-   **Date:** [YYYY-MM-DD]
-   **Status:** Accepted
-
-   ## Context
-   What prompted this decision?
-
-   ## Options Considered
-   1. Option A — pros/cons
-   2. Option B — pros/cons
-
-   ## Decision
-   What we chose and why.
-
-   ## Consequences
-   What follows from this decision.
-   ```
+   invoke `/save-decision` via the Skill tool with the decision title. Do
+   not duplicate the ADR template here — `/save-decision` owns that format.
 
 6. If this is an end-of-session checkpoint, also write a brief session summary
    to `.planning/sessions/[date]-[branch-slug].md` capturing what was

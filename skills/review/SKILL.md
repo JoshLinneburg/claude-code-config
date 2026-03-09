@@ -2,9 +2,10 @@
 name: review
 description: >
   Critical code review of the current branch's changes. Run after completing
-  a significant chunk of work. Spawns 4 parallel analysis agents (correctness,
-  testability, naming, documentation) then aggregates findings and applies
-  fixes. Designed to be run 2-3 times iteratively.
+  a significant chunk of work. Spawns 5 parallel analysis agents (correctness
+  & security, code quality, test quality, production readiness, documentation
+  & maintenance) then aggregates findings and applies fixes. Designed to be
+  run 2-3 times iteratively.
 argument-hint: [optional focus area]
 disable-model-invocation: false
 user-invocable: true
@@ -40,7 +41,8 @@ not a feel-good exercise. Code that doesn't meet the bar gets fixed.
 3. If `$ARGUMENTS` was provided, use it to focus the review (e.g.,
    "review tests only", "review the extraction module").
 
-4. Get the full diff: `git diff main` (for the analysis agents).
+4. Get the full diff: `git diff main` (or `master`, matching whichever
+   base the pre-loaded context found). The agents need the full diff.
 
 ## Iteration Awareness
 

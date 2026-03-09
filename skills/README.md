@@ -12,7 +12,7 @@ Complete reference for all Claude Code skills in this configuration. Each skill 
   - [`/log-lesson`](#log-lesson) — Record a correction
   - [`/cleanup-planning`](#cleanup-planning) — Remove stale state files
 - [Code Quality](#code-quality)
-  - [`/review`](#review) (aka [`/josh-test`](#josh-test)) — Branch diff code review
+  - [`/review`](#review) (aka `/josh-test`) — Branch diff code review
   - [`/review-project`](#review-project) — Full codebase health check
   - [`/test-gap`](#test-gap) — Test coverage analysis
   - [`/doc-drift`](#doc-drift) — Documentation staleness detector

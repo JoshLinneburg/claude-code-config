@@ -33,7 +33,7 @@ This is not vibe coding — there's no "hey AI, build me a thing" and shipping w
 |---|---|
 | `CLAUDE.md` | Working philosophy, code standards, git workflow, and context persistence rules |
 | `settings.json` | Permission allowlist, deny list, and session lifecycle hooks |
-| [`skills/`](skills/README.md) | 14 slash commands for context persistence, code quality, and workflow automation |
+| [`skills/`](skills/README.md) | 15 slash commands for context persistence, code quality, and workflow automation |
 
 ## Setup
 

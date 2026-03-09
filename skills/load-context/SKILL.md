@@ -37,7 +37,7 @@ error or "not found", that data is unavailable.
 !`ls -1 .planning/research/ 2>/dev/null | grep -v .gitkeep || echo "(no research)"`
 
 **Recent session for this branch:**
-!`SLUG=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); ls -1t .planning/sessions/*${SLUG}* 2>/dev/null | head -1 | xargs cat 2>/dev/null || echo "(no session files for this branch)"`
+!`SLUG=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-'); ls -1t .planning/sessions/*-${SLUG}.md 2>/dev/null | head -1 | xargs cat 2>/dev/null || echo "(no session files for this branch)"`
 
 **All state files (for stale check):**
 !`ls -1 .planning/STATE-*.md 2>/dev/null || echo "(none)"`
