@@ -123,6 +123,16 @@ When you correct Claude, it logs the correction to `.planning/lessons.md` as a c
 - **Log lessons** after any correction
 - **Run verification** (lint, test, build) before considering work done
 
+## Philosophy
+
+This is not vibe coding. Vibe coding is "hey AI, build me a thing" and shipping whatever comes out — no review, no tests, no standards. The value is speed to a prototype. The cost is everything after.
+
+This config treats AI as a tool for automating the development of software that meets the same bar a world-class human team would set. The goal is code that humans can read, extend, debug, and maintain without ever knowing an LLM wrote it. Not AI doing things humans never could — AI doing things how the best teams of humans previously operated, but faster and more consistently.
+
+The human sets the architecture, the quality bar, and the process. The AI writes code, but operates within a system of standards, review gates, and persistent context that enforces discipline. Every change gets tested, linted, and reviewed against 10 criteria before it ships. Decisions are recorded. Lessons accumulate. Context survives across sessions.
+
+If the AI disappeared tomorrow, you'd be left with a clean codebase, comprehensive tests, documented decisions, and code that any competent engineer could pick up and run with. That's the point.
+
 ## What This Is Not
 
 This is not a framework. There are no phases, no gates, no agent personas. It's a persistent memory layer and quality workflow that sits underneath however you already work with Claude Code.
