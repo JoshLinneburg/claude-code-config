@@ -29,7 +29,11 @@ Evaluate:
 - **Readability** — Can a human reason through this code without
   consulting three other files? Are variable and function names
   descriptive and unambiguous? Is there unnecessary cleverness? Are
-  complex operations broken into well-named steps?
+  complex operations broken into well-named steps? Does the code use
+  idiomatic constructs for its language (`.map()`/`.filter()` in JS,
+  list comprehensions in Python, modern APIs like `pathlib`/`fetch`
+  over older equivalents)? Code that fights the language's grain is
+  harder to read even when correct.
 
 Return findings in the same format as Agent 1.
 
@@ -37,9 +41,12 @@ Return findings in the same format as Agent 1.
 
 Evaluate:
 - **Naming & Conventions** — Are leading underscores used correctly
-  (only genuinely private/internal items)? Do names follow the project's
-  existing conventions? Are there magic numbers or strings that should
-  be named constants or enums?
+  (only genuinely private/internal items)? Project conventions take
+  precedence — check surrounding code first. Where the project is
+  silent, follow the language's community standards: `snake_case` for
+  Python/Rust, `camelCase` for JS/TS, `PascalCase` for classes/types.
+  Are there magic numbers or strings that should be named constants
+  or enums?
 - **Pattern Adherence** — Does the code follow the patterns established
   in this project (from CLAUDE.md, CONTRIBUTING.md, and surrounding
   code)? If the code deviates from established patterns, is there a good

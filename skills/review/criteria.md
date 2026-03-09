@@ -23,6 +23,12 @@ Evaluate against ALL of the following. Do not skim. Read the code carefully.
 - Are variable and function names descriptive and unambiguous?
 - Is there unnecessary cleverness that could be written more plainly?
 - Are complex operations broken into well-named steps?
+- Does the code use the language's idiomatic constructs? Prefer `.map()`,
+  `.filter()`, `.reduce()` over manual loops in JS/TS. Prefer list
+  comprehensions and generators over explicit accumulation in Python. Prefer
+  modern standard library APIs (`pathlib` over `os.path`, `fetch` over
+  `XMLHttpRequest`, `structuredClone` over `JSON.parse(JSON.stringify(...))`).
+  Code that fights the language's grain is harder to read even when correct.
 
 ## 4. Naming & Conventions
 - **Leading underscores**: Are `_foo()` functions genuinely private/internal,
@@ -30,7 +36,11 @@ Evaluate against ALL of the following. Do not skim. Read the code carefully.
   within its own module is private. A function that is tested directly, imported
   elsewhere, or part of a module's API should NOT have a leading underscore.
   Fix any misuse.
-- Do names follow the project's existing conventions? Check surrounding code.
+- **Convention hierarchy**: project conventions take precedence — check
+  surrounding code first. Where the project is silent, follow the language's
+  community standards: `snake_case` for Python/Rust, `camelCase` for JS/TS,
+  `PascalCase` for classes/types everywhere. Code that uses the wrong casing
+  for its language looks foreign and slows down readers.
 - Are there magic numbers or strings that should be named constants or enums?
 
 ## 5. Documentation

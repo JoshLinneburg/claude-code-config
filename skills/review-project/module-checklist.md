@@ -6,8 +6,12 @@ For each module or major directory, evaluate:
   Same naming, same error handling, same test structure?
 - **Testability** — Is business logic separated from I/O? Are there
   untested code paths? Are tests testing behavior or just mocks?
-- **Naming** — Leading underscores only on genuinely private/internal
-  items. No magic strings. Descriptive names.
+- **Naming & Idioms** — Leading underscores only on genuinely private/internal
+  items. No magic strings. Descriptive names. Follow the language's community
+  conventions where the project doesn't override (`snake_case` for Python/Rust,
+  `camelCase` for JS/TS, `PascalCase` for classes/types). Prefer idiomatic
+  constructs: `.map()`/`.filter()` in JS, list comprehensions in Python,
+  modern APIs (`pathlib`, `fetch`) over older equivalents.
 - **Dead code** — Unused imports, unreachable branches, commented-out
   code, orphaned files.
 - **Documentation** — Public APIs documented. Non-obvious logic explained.

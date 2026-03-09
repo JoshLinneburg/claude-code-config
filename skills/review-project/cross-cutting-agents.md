@@ -22,7 +22,11 @@ agent receives the module findings and project context. Each performs
 
 - Does module A handle errors differently from module B without a
   good reason?
-- Are naming conventions consistent across modules?
+- Are naming conventions consistent across modules? Do they follow the
+  language's community standards where the project doesn't override
+  (`snake_case` for Python/Rust, `camelCase` for JS/TS)? Are idiomatic
+  constructs used consistently (`.map()`/`.filter()` vs manual loops in
+  JS, list comprehensions vs explicit accumulation in Python)?
 - Are configuration patterns (env vars, settings objects) consistent?
 - Is there duplicated logic across modules that should be shared?
 
