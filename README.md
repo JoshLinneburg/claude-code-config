@@ -27,12 +27,17 @@ Personal [Claude Code](https://docs.anthropic.com/en/docs/claude-code) configura
 
 ## Setup
 
+> **⚠️ This replaces your entire `~/.claude` directory.** If you already use Claude Code, you almost certainly have existing config there — `CLAUDE.md`, `settings.json`, `keybindings.json`, memory files, etc. **Back it up before cloning or you will lose it.**
+>
+> ```bash
+> # Back up your existing config first
+> cp -r ~/.claude ~/.claude-backup
+> ```
+
 ```bash
 # Clone into ~/.claude (the directory Claude Code uses for user-level config)
 git clone git@github.com:JoshLinneburg/claude-code-config.git ~/.claude
 ```
-
-If you already have a `~/.claude` directory, back it up first — this will replace it.
 
 ### After Cloning
 
