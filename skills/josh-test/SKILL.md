@@ -2,7 +2,7 @@
 name: josh-test
 description: >
   Alias for /review. The Josh Test: a ruthless code review that holds
-  nothing back. Same 9 criteria, same parallel agents, same iterative
+  nothing back. Same 10 criteria, same 5 parallel agents, same iterative
   design — just a better name.
 argument-hint: [optional focus area]
 disable-model-invocation: false

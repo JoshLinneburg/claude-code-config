@@ -56,11 +56,11 @@ Check the pre-loaded recent commits for review-fix patterns:
 ## Analysis Strategy
 
 **If the diff touches fewer than 3 files**, read
-`${CLAUDE_SKILL_DIR}/criteria.md` for the 9 review criteria and evaluate
+`${CLAUDE_SKILL_DIR}/criteria.md` for the 10 review criteria and evaluate
 all of them in a single sequential pass.
 
 **If the diff touches 3 or more files**, read
-`${CLAUDE_SKILL_DIR}/agents.md` for the 4 parallel agent prompts. Spawn
+`${CLAUDE_SKILL_DIR}/agents.md` for the 5 parallel agent prompts. Spawn
 them in parallel — each agent receives the changed files, full diff, and
 project conventions. Each performs a **read-only** analysis and returns
 a list of findings.
