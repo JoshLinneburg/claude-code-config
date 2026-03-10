@@ -23,11 +23,17 @@ Evaluate:
   cancellation and timeout paths handled?
 - **Security** — At system boundaries (user input, external APIs, file
   I/O), is data validated before use in SQL queries, shell commands,
-  file paths, or HTML output? Are secrets hardcoded or logged? Are
-  auth checks in place — can a user access another user's data by
-  manipulating IDs or parameters? Is untrusted data deserialized
-  without validation (`pickle.loads`, `eval`, unvalidated
-  `JSON.parse`)? Do not flag internal calls between trusted modules.
+  file paths, or HTML output? Are secrets hardcoded or logged? Is
+  untrusted data deserialized without validation (`pickle.loads`,
+  `eval`, unvalidated `JSON.parse`)? Do not flag internal calls
+  between trusted modules.
+- **Authorization completeness** — Don't stop at "is there an auth
+  check?" Enumerate ALL operations on a resource and verify EACH one
+  enforces authorization. If a resource has restricted access (shared
+  links, read-only views, role-based visibility), trace every action
+  (edit, delete, rename, export) and confirm they're all guarded — not
+  just the primary action. Frontend-only enforcement (hiding a button
+  without a server-side check) is not authorization — flag it.
 
 Return findings as a list, each with: file path, line number, severity
 (critical/moderate/minor), what's wrong (one sentence), and suggested fix.

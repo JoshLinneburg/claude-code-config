@@ -43,9 +43,13 @@ with the rest of the project.
   (interfaces, data classes) defined consistently?
 - **Security consistency** — across modules, is user input consistently
   validated before use in queries, commands, file paths, or output? Are
-  auth checks applied consistently? Are secrets handled the same way
-  (env vars, not hardcoded)? One module doing it right and another
-  doing it wrong is a pattern consistency failure.
+  secrets handled the same way (env vars, not hardcoded)? One module
+  doing it right and another doing it wrong is a pattern consistency
+  failure. **Authorization completeness** — for resources with access
+  control, are ALL operations (view, edit, delete, share, export)
+  consistently guarded across modules, or does one module check while
+  another assumes? Are auth checks enforced server-side, or do some
+  modules rely only on frontend UI hiding?
 - **Observability consistency** — are logging patterns consistent across
   modules? Same log format, same error context, same level conventions?
   Is one module using structured logging while another uses bare print

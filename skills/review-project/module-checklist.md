@@ -8,8 +8,11 @@ These mirror the 10 review criteria from `/review`, applied at module scope.
   For async code: proper await, cancellation, timeout handling.
 - **Security** — At system boundaries (user input, external APIs, file
   I/O): is data validated before use in queries, commands, or output?
-  Secrets hardcoded or logged? Auth checks in place? Untrusted data
-  deserialized without validation? Do not flag internal trusted calls.
+  Secrets hardcoded or logged? Untrusted data deserialized without
+  validation? Do not flag internal trusted calls. For authorization:
+  enumerate ALL operations on each resource and verify EACH one enforces
+  access control — not just the primary action. Flag frontend-only
+  enforcement (hiding UI elements without server-side checks).
 - **Readability** — Can you follow the code without jumping between
   files? Idiomatic constructs used (`.map()`/`.filter()` in JS, list
   comprehensions in Python, modern APIs)? Unnecessary cleverness?

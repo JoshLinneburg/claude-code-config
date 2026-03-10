@@ -22,8 +22,18 @@ Evaluate against ALL 10 criteria. Do not skim. Read the code carefully.
 - Are API keys, tokens, credentials, or secrets hardcoded or logged?
   Check string literals, environment variable defaults, and log/print
   statements.
-- Are authentication and authorization checks in place? Can a user
-  access or modify another user's data by manipulating IDs or parameters?
+- **Authorization completeness** — Don't just check if auth exists.
+  Enumerate ALL operations on a resource (view, edit, delete, share,
+  export, etc.) and verify EACH one enforces authorization. A shared
+  chat link that hides the message input but still exposes delete and
+  rename is broken authorization. When access control is applied to one
+  action, trace every other action on the same resource and verify
+  they're equally guarded.
+- **Server-side enforcement** — Is authorization enforced at the
+  API/backend layer, or only in the UI? A frontend that conditionally
+  hides a button is not access control — the backend must reject
+  unauthorized requests regardless of what the frontend renders. If you
+  see a permission check only in a component's render logic, flag it.
 - Is untrusted data deserialized without validation (e.g., `pickle.loads`,
   `eval`, `JSON.parse` into executable contexts)?
 - Only flag issues at system boundaries — user input, external API
