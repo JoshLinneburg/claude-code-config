@@ -16,62 +16,46 @@ left off.
 
 ## Pre-loaded Data
 
-The following data was gathered automatically. If any section shows an
-error or "not found", that data is unavailable.
-
-**Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "(not a git repo)"`
-
-**Git status:**
-!`git status --porcelain 2>/dev/null | head -20 || echo "(not a git repo)"`
-
-**State file:**
-!`cat ".planning/STATE-$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-').md" 2>/dev/null || echo "(no state file for this branch)"`
-
-**Lessons:**
-!`cat .planning/lessons.md 2>/dev/null || echo "(no lessons file)"`
-
-**Decision files:**
-!`ls -1t .planning/decisions/ 2>/dev/null | grep -v .gitkeep | head -10 || echo "(no decisions)"`
-
-**Research files:**
-!`ls -1 .planning/research/ 2>/dev/null | grep -v .gitkeep || echo "(no research)"`
-
-**Recent session for this branch:**
-!`ls -1t .planning/sessions/*-$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-').md 2>/dev/null | head -1 | xargs cat 2>/dev/null || echo "(no session files for this branch)"`
-
-**All state files (for stale check):**
-!`ls -1 .planning/STATE-*.md 2>/dev/null || echo "(none)"`
-
-**Local branches:**
-!`git branch --format='%(refname:short)' 2>/dev/null || echo "(not a git repo)"`
+**Branch:** !`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+**Git status:** !`git status --porcelain 2>/dev/null`
+**Local branches:** !`git branch 2>/dev/null`
 
 ## Steps
 
-1. If the pre-loaded data shows "(not a git repo)" or `.planning/`
+1. Determine the branch slug: take the branch name from above and replace
+   `/` with `-` (e.g., `feat/foo` becomes `feat-foo`).
+
+2. Use the **Read** tool to read `.planning/STATE-<branch-slug>.md`.
+   If it doesn't exist, note "no state file for this branch."
+
+3. Use the **Read** tool to read `.planning/lessons.md`.
+   If it doesn't exist, note "no lessons file."
+
+4. Use **Glob** to find files matching `.planning/decisions/*.md`.
+   Read the 3 most recent ones. These are tracked in git and represent
+   project-wide decisions.
+
+5. Use **Glob** to find files matching `.planning/research/*`.
+   List them (don't read them all — just show what's available).
+
+6. Use **Glob** to find files matching `.planning/sessions/*-<branch-slug>.md`.
+   If any exist, read the most recent one to recover session context.
+
+7. Use **Glob** to find all `.planning/STATE-*.md` files.
+   Compare their slugs against the local branch list (with `/` replaced
+   by `-`). Flag any that don't match a current branch as stale.
+
+8. If the branch/git-status data above shows errors or `.planning/`
    doesn't exist, tell the user they can run `/init-planning` and stop.
 
-2. Review the pre-loaded state file. If it shows "(no state file for this
-   branch)", note that this branch hasn't been checkpointed yet. Mention
-   which other branches have state (from the state files listing).
-
-3. Read the 3 most recent decision files listed above. These are tracked
-   in git and represent project-wide decisions.
-
-4. If a session file was loaded above, incorporate its context.
-
-5. Check for stale state files: compare the state file slugs against the
-   local branch list (with `/` replaced by `-`). If any don't match a
-   current branch, note it.
-
-6. Provide a **brief** summary (not a wall of text) structured as:
+9. Provide a **brief** summary (not a wall of text) structured as:
    - What branch we're on
    - Where we left off (from state file, or "no prior state")
    - Key decisions in effect (from the decision files you read)
    - Available research topics (from the listing)
    - Recommended next steps
    - Open questions or blockers
-   - Lessons learned (from the pre-loaded lessons — list them so they're
-     in context)
+   - Lessons learned (list them so they're in context)
    - Stale state files (one-line note if any: "N stale state file(s).
      Run /cleanup-planning to review.")
 
