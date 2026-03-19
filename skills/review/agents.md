@@ -1,6 +1,6 @@
 # Parallel Review Agents
 
-Spawn these 5 agents in parallel. Each receives the list of changed files,
+Spawn these 6 agents in parallel. Each receives the list of changed files,
 the full diff, and the project's CLAUDE.md/CONTRIBUTING.md content. Each
 performs a **read-only** analysis — no edits, no fixes. Each returns a list
 of findings.
@@ -73,6 +73,16 @@ Evaluate:
 - **Pattern Adherence** — Does the code follow the patterns
   established in this project (from CLAUDE.md, CONTRIBUTING.md, and
   surrounding code)? If the code deviates, is there a good reason?
+  **Actively compare against siblings**: for any new or changed file,
+  read 1-2 other files in the same directory to learn the established
+  pattern. For example, a new file in `services/` should be compared
+  against existing services — does it use the same class structure,
+  constructor injection, lifecycle methods (`close()`), error handling
+  conventions? A module of loose functions in a directory of classes
+  is a pattern violation. A file that reaches into global state
+  (`getattr(app.state, ...)`) when siblings use dependency injection
+  is a pattern violation. Don't just check CLAUDE.md — check the
+  actual code around it.
 
 Return findings in the same format as Agent 1.
 
@@ -157,5 +167,52 @@ Evaluate:
   the branch's changes.
 - **Dead code** — Is there dead code, commented-out code, or TODO
   comments that should be resolved? Unused imports? Unreachable branches?
+
+Return findings in the same format as Agent 1.
+
+---
+
+## Agent 6: Architecture & Responsibility Boundaries
+
+**Question: "Is this code in the right place, and are the boundaries right?"**
+
+This agent evaluates module-level design: whether responsibilities are
+correctly distributed, whether abstractions are at the right level, and
+whether the dependency graph makes sense. Code quality agents check *how*
+code is written; this agent checks *where* it lives and *what* it knows
+about.
+
+Evaluate:
+- **Module cohesion** — Does each module/file do one thing well? Are
+  there functions that would be more at home in a different module?
+  For example: business logic in a route handler (should be extracted),
+  I/O in a utility module (should be in a service), formatting logic in
+  a service (should be in a formatter/serializer). Read the module's
+  docstring and ask: does every function in this file serve that stated
+  purpose?
+- **Service extraction** — Are there patterns that should be a service
+  but aren't? Signs: a function that mixes coordination logic with data
+  access, a module that holds state or manages connections, a utility
+  that wraps an external API. Conversely: is something a service that
+  should just be a function? Not everything needs a class — if it has
+  no state and no lifecycle, a plain function is simpler.
+- **Dependency direction** — Do modules depend on things at the right
+  level of abstraction? Routes should depend on services, not on
+  implementation details. Services should not import from routes. Pure
+  functions should not import I/O modules. Check import statements:
+  does the dependency graph flow downward (routes → services → external
+  APIs), or are there circular or upward dependencies?
+- **API surface** — Are module boundaries clean? What's exported vs
+  internal? Are there functions with leading underscores that are
+  actually part of the public API (imported elsewhere, tested directly)?
+  Conversely, are there public functions that should be private? Check
+  `__all__`, imports from other modules, and test files to determine
+  the real API surface.
+- **Cross-cutting concerns** — Are concerns like logging, tracing,
+  error handling, and configuration threaded through in a consistent
+  way, or are they handled ad-hoc in each module? Look for parameters
+  being passed through 3+ function calls just to reach their
+  destination — this "parameter threading" may indicate a missing
+  abstraction (context object, middleware, dependency injection).
 
 Return findings in the same format as Agent 1.

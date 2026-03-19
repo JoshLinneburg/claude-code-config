@@ -1,6 +1,6 @@
 # Sequential Review Criteria
 
-Evaluate against ALL 10 criteria. Do not skim. Read the code carefully.
+Evaluate against ALL 11 criteria. Do not skim. Read the code carefully.
 
 ---
 
@@ -86,6 +86,15 @@ Evaluate against ALL 10 criteria. Do not skim. Read the code carefully.
 - Does the code follow the patterns established in this project? Check
   the project's CLAUDE.md, CONTRIBUTING.md, and surrounding code for
   conventions.
+- **Actively compare against siblings**: for any new or changed file,
+  read 1-2 other files in the same directory to learn the established
+  pattern. A new file in `services/` should match existing services in
+  structure (class vs functions, constructor injection, lifecycle
+  methods, error conventions). A module of loose functions in a
+  directory of classes is a pattern violation. A file that reaches
+  into global state when siblings use dependency injection is a
+  pattern violation. Don't just check docs — check the actual
+  neighboring code.
 - If the code deviates from established patterns, is there a good reason?
   If not, align it.
 
@@ -143,3 +152,25 @@ Evaluate against ALL 10 criteria. Do not skim. Read the code carefully.
 - Are there new env vars, CLI commands, or API endpoints not documented?
 - Is there dead code, commented-out code, or TODO comments that should
   be resolved? Unused imports? Unreachable branches?
+
+---
+
+## 11. Architecture & Responsibility Boundaries
+- **Module cohesion** — Does each module/file do one thing well? Are
+  there functions that would be more at home in a different module?
+  Business logic in a route handler should be extracted. I/O in a utility
+  module should be in a service. Formatting logic in a service should be
+  in a formatter/serializer.
+- **Service extraction** — Are there patterns that should be a service
+  but aren't? Signs: a function mixes coordination logic with data
+  access, a module holds state, a utility wraps an external API.
+  Conversely: is something a service that should just be a function?
+- **Dependency direction** — Do modules depend at the right abstraction
+  level? Routes → services → external APIs. Pure functions should not
+  import I/O modules. Check for circular or upward dependencies.
+- **API surface** — Are module boundaries clean? Are there functions with
+  leading underscores that are actually public (imported elsewhere,
+  tested directly)? Are there public functions that should be private?
+- **Parameter threading** — Are parameters passed through 3+ calls just
+  to reach their destination? This may indicate a missing abstraction
+  (context object, middleware, dependency injection).

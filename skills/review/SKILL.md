@@ -2,10 +2,10 @@
 name: review
 description: >
   Critical code review of the current branch's changes. Run after completing
-  a significant chunk of work. Spawns 5 parallel analysis agents (correctness
+  a significant chunk of work. Spawns 6 parallel analysis agents (correctness
   & security, code quality, test quality, production readiness, documentation
-  & maintenance) then aggregates findings and applies fixes. Designed to be
-  run 2-3 times iteratively.
+  & maintenance, architecture & responsibility boundaries) then aggregates
+  findings and applies fixes. Designed to be run 2-3 times iteratively.
 argument-hint: [optional focus area]
 disable-model-invocation: false
 user-invocable: true
