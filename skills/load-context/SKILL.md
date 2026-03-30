@@ -31,32 +31,37 @@ left off.
 3. Use the **Read** tool to read `.planning/lessons.md`.
    If it doesn't exist, note "no lessons file."
 
-4. Use **Glob** to find files matching `.planning/decisions/*.md`.
+4. Use the **Read** tool to read `.planning/ROADMAP.md`.
+   If it doesn't exist, skip. If it exists, include the **Now** and
+   **Next** sections in your summary to orient on current priorities.
+
+5. Use **Glob** to find files matching `.planning/decisions/*.md`.
    Read the 3 most recent ones. These are tracked in git and represent
    project-wide decisions.
 
-5. Use **Glob** to find files matching `.planning/research/*`.
+6. Use **Glob** to find files matching `.planning/research/*`.
    List them (don't read them all — just show what's available).
 
-6. Use **Glob** to find files matching `.planning/sessions/*-<branch-slug>.md`.
+7. Use **Glob** to find files matching `.planning/sessions/*-<branch-slug>.md`.
    If any exist, read the most recent one to recover session context.
 
-7. Use **Glob** to find all `.planning/STATE-*.md` files.
+8. Use **Glob** to find all `.planning/STATE-*.md` files.
    Compare their slugs against the local branch list (with `/` replaced
    by `-`). Flag any that don't match a current branch as stale.
 
-8. If the branch/git-status data above shows errors or `.planning/`
+9. If the branch/git-status data above shows errors or `.planning/`
    doesn't exist, tell the user they can run `/init-planning` and stop.
 
-9. Provide a **brief** summary (not a wall of text) structured as:
-   - What branch we're on
-   - Where we left off (from state file, or "no prior state")
-   - Key decisions in effect (from the decision files you read)
-   - Available research topics (from the listing)
-   - Recommended next steps
-   - Open questions or blockers
-   - Lessons learned (list them so they're in context)
-   - Stale state files (one-line note if any: "N stale state file(s).
-     Run /cleanup-planning to review.")
+10. Provide a **brief** summary (not a wall of text) structured as:
+    - What branch we're on
+    - Where we left off (from state file, or "no prior state")
+    - Current priorities (from ROADMAP.md **Now** section)
+    - Key decisions in effect (from the decision files you read)
+    - Available research topics (from the listing)
+    - Recommended next steps
+    - Open questions or blockers
+    - Lessons learned (list them so they're in context)
+    - Stale state files (one-line note if any: "N stale state file(s).
+      Run /cleanup-planning to review.")
 
 Do not parrot the files back verbatim. Synthesize and summarize.

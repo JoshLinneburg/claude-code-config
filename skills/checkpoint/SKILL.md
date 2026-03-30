@@ -67,11 +67,20 @@ also works correctly with worktrees.
    - [what should happen next, in priority order]
    ```
 
-5. If a specific architectural or design decision was made during this work,
+5. If `.planning/ROADMAP.md` exists, check whether any roadmap items should
+   move between sections based on work done this session:
+   - **Now → Done**: If a "Now" item was completed, move it to "Done" with
+     a date and PR/commit reference.
+   - **Next → Now**: If a "Next" item was started (branch created, work begun),
+     move it to "Now" with a `branch:` reference.
+   - Keep the Done section trimmed to the last ~2 months. Remove older entries.
+   - Do not rewrite items that haven't changed.
+
+6. If a specific architectural or design decision was made during this work,
    invoke `/save-decision` via the Skill tool with the decision title. Do
    not duplicate the ADR template here — `/save-decision` owns that format.
 
-6. If this is an end-of-session checkpoint, also write a brief session summary
+7. If this is an end-of-session checkpoint, also write a brief session summary
    to `.planning/sessions/[date]-[branch-slug].md` capturing what was
    accomplished and any loose threads. Include the branch name in the filename
    so session logs don't collide across branches.

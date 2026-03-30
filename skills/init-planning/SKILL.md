@@ -58,6 +58,7 @@ This means:
    Context persistence for Claude Code sessions.
 
    ## Structure
+   - `ROADMAP.md` — Living product roadmap: Now / Next / Later / Done (tracked in git)
    - `STATE-<branch>.md` — Current working state (per-branch, gitignored)
    - `decisions/` — Architectural decision records (tracked in git, shared)
    - `research/` — Research findings (tracked in git, shared)
