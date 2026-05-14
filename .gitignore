@@ -8,8 +8,7 @@
 !claude/**
 !codex/
 !codex/**
-!scripts/
-!scripts/**
+!install.sh
 
 # Never track credentials or local state
 .credentials.json

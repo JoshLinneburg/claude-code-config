@@ -3,7 +3,7 @@ set -eu
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/install.sh <claude|codex> [--replace] [--dry-run]
+Usage: ./install.sh <claude|codex> [--replace] [--dry-run]
 
 Installs managed assistant configuration files from this repository.
 
@@ -29,8 +29,7 @@ fail() {
 }
 
 repo_root() {
-  script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-  CDPATH= cd -- "$script_dir/.." && pwd
+  CDPATH= cd -- "$(dirname -- "$0")" && pwd
 }
 
 timestamp() {

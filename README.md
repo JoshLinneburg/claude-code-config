@@ -10,7 +10,7 @@ uses the same file layout.
 |---|---|
 | `claude/` | Claude Code user config: `CLAUDE.md`, `settings.json`, and Claude skill commands |
 | `codex/` | Codex user config: `AGENTS.md`, `config.toml`, rules, and Codex skills |
-| `scripts/install.sh` | Installer for `~/.claude` or `~/.codex` |
+| `install.sh` | Installer for `~/.claude` or `~/.codex` |
 
 The workflow is the same across providers: preserve project context in
 `.planning/`, record decisions, keep lessons from corrections, review code
@@ -21,26 +21,26 @@ against a high bar, and verify changes before shipping.
 Clone this repo anywhere outside the assistant config directories:
 
 ```bash
-git clone git@github.com:JoshLinneburg/claude-code-config.git ~/projects/claude-code-config
-cd ~/projects/claude-code-config
+git clone git@github.com:JoshLinneburg/coding-agent-config.git ~/projects/coding-agent-config
+cd ~/projects/coding-agent-config
 ```
 
 Install Claude Code config:
 
 ```bash
-scripts/install.sh claude
+./install.sh claude
 ```
 
 Install Codex config:
 
 ```bash
-scripts/install.sh codex
+./install.sh codex
 ```
 
 Preview either install without changing files:
 
 ```bash
-scripts/install.sh codex --dry-run
+./install.sh codex --dry-run
 ```
 
 By default, the installer only replaces managed files and moves existing
@@ -49,7 +49,7 @@ versions into `~/.assistant-config-backups/<target>-<timestamp>/`.
 For a clean target directory:
 
 ```bash
-scripts/install.sh codex --replace
+./install.sh codex --replace
 ```
 
 Use `--replace` carefully. For Codex it moves auth, logs, sessions, caches,
