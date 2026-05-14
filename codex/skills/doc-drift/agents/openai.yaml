@@ -1,0 +1,6 @@
+interface:
+  display_name: "Doc Drift"
+  short_description: "Find docs that no longer match code"
+  default_prompt: "Use $doc-drift to check whether documentation still matches the code."
+policy:
+  allow_implicit_invocation: true

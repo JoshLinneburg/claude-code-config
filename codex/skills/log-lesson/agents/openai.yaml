@@ -1,0 +1,6 @@
+interface:
+  display_name: "Log Lesson"
+  short_description: "Record corrections as durable rules"
+  default_prompt: "Use $log-lesson to record the correction as a reusable project rule."
+policy:
+  allow_implicit_invocation: true

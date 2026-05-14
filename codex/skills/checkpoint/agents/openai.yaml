@@ -1,0 +1,6 @@
+interface:
+  display_name: "Checkpoint"
+  short_description: "Save concise project state snapshots"
+  default_prompt: "Use $checkpoint to save the current branch state before wrapping up."
+policy:
+  allow_implicit_invocation: true

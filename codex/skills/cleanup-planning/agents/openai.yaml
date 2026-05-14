@@ -1,0 +1,6 @@
+interface:
+  display_name: "Cleanup Planning"
+  short_description: "Review and remove stale planning state"
+  default_prompt: "Use $cleanup-planning to review stale .planning state files."
+policy:
+  allow_implicit_invocation: false

@@ -4,12 +4,21 @@
 # Track configuration
 !.gitignore
 !README.md
-!CLAUDE.md
-!settings.json
-
-# Track skills
-!skills/
-!skills/**
+!claude/
+!claude/**
+!codex/
+!codex/**
+!scripts/
+!scripts/**
 
 # Never track credentials or local state
 .credentials.json
+auth.json
+history.jsonl
+sessions/
+cache/
+log/
+tmp/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

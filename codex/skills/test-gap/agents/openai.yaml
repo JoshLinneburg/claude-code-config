@@ -1,0 +1,6 @@
+interface:
+  display_name: "Test Gap"
+  short_description: "Find missing tests for changed code"
+  default_prompt: "Use $test-gap to find missing test coverage in this branch."
+policy:
+  allow_implicit_invocation: true

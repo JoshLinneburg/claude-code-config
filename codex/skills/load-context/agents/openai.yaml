@@ -1,0 +1,6 @@
+interface:
+  display_name: "Load Context"
+  short_description: "Resume from project planning context"
+  default_prompt: "Use $load-context to recover the current branch context before starting."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Init Planning"
+  short_description: "Create project planning memory files"
+  default_prompt: "Use $init-planning to set up .planning for this project."
+policy:
+  allow_implicit_invocation: false

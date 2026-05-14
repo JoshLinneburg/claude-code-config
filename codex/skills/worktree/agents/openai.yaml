@@ -1,0 +1,6 @@
+interface:
+  display_name: "Worktree"
+  short_description: "Create parallel git workspaces"
+  default_prompt: "Use $worktree to create a parallel workspace for a new branch."
+policy:
+  allow_implicit_invocation: false

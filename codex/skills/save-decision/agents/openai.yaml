@@ -1,0 +1,6 @@
+interface:
+  display_name: "Save Decision"
+  short_description: "Record architectural decisions"
+  default_prompt: "Use $save-decision to persist the design decision as an ADR."
+policy:
+  allow_implicit_invocation: true

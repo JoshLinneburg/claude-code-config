@@ -1,0 +1,6 @@
+interface:
+  display_name: "Josh Test"
+  short_description: "Alias for a rigorous branch review"
+  default_prompt: "Use $josh-test to run the rigorous review workflow."
+policy:
+  allow_implicit_invocation: false

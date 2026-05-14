@@ -1,0 +1,6 @@
+interface:
+  display_name: "Review Project"
+  short_description: "Assess codebase health and structure"
+  default_prompt: "Use $review-project to run a project health check."
+policy:
+  allow_implicit_invocation: true

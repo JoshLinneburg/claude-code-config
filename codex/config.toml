@@ -1,0 +1,7 @@
+# Codex user-level defaults managed by this repository.
+#
+# Local project trust entries belong on the target machine and are not tracked
+# here because they are machine-specific.
+
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"

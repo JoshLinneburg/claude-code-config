@@ -1,0 +1,6 @@
+interface:
+  display_name: "Ship"
+  short_description: "Verify, push, and prepare a PR"
+  default_prompt: "Use $ship to verify the branch and prepare it for PR."
+policy:
+  allow_implicit_invocation: false

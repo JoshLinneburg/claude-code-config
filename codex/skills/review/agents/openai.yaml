@@ -1,0 +1,6 @@
+interface:
+  display_name: "Review"
+  short_description: "Run critical branch code review"
+  default_prompt: "Use $review to review the current branch changes critically."
+policy:
+  allow_implicit_invocation: true
