@@ -8,8 +8,8 @@ Usage: ./install.sh <claude|codex> [--replace] [--dry-run]
 Installs managed assistant configuration files from this repository.
 
 Targets:
-  claude  installs claude/CLAUDE.md, claude/settings.json, claude/skills
-          into ~/.claude
+  claude  installs claude/CLAUDE.md, claude/settings.json, claude/skills,
+          and claude/workflows (if present) into ~/.claude
   codex   installs codex/AGENTS.md, codex/config.toml,
           codex/rules/default.rules, and codex/skills into ~/.codex
 
@@ -158,6 +158,9 @@ main() {
       install_managed_item "$src_root/CLAUDE.md" "$target_root" "CLAUDE.md" "$backup_root" "$dry_run"
       install_managed_item "$src_root/settings.json" "$target_root" "settings.json" "$backup_root" "$dry_run"
       install_managed_item "$src_root/skills" "$target_root" "skills" "$backup_root" "$dry_run"
+      if [ -d "$src_root/workflows" ]; then
+        install_managed_item "$src_root/workflows" "$target_root" "workflows" "$backup_root" "$dry_run"
+      fi
       ;;
     codex)
       install_managed_item "$src_root/AGENTS.md" "$target_root" "AGENTS.md" "$backup_root" "$dry_run"

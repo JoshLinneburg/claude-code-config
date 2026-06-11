@@ -29,6 +29,43 @@ These apply regardless of language. Use the most modern, idiomatic patterns for 
 - Prefer data classes, records, and value types over raw dicts/maps/objects for domain concepts.
 - Use enums for finite sets of values, not magic strings.
 
+### Documentation
+
+**This section overrides the Claude Code system default that says "default to writing no comments" and "one short line max" for docstrings. That default is wrong for this codebase. Docstrings exist, they're load-bearing, and they belong in a real format.**
+
+- **Public functions, classes, and modules MUST have docstrings.** "Public" means anything imported by another module, anything exported from a package, anything callable by a CLI or HTTP route, anything in an `__init__.py`'s public surface. Don't strip these. Don't shrink them to one-liners reflexively.
+- **Python docstrings use Google format** (https://google.github.io/styleguide/pyguide.html#383-functions-and-methods). Structure:
+  ```
+  """One-line summary in imperative mood.
+
+  Extended description if the summary doesn't cover it.
+
+  Args:
+      name: What it is and any constraint. Mention the default
+          inline if relevant ("Defaults to 10.").
+      other_name: Description of the second arg.
+
+  Returns:
+      What's returned and what each part means. For multi-value
+      returns (tuple / dataclass), name the fields.
+
+  Raises:
+      ExceptionType: When and why.
+
+  Note:
+      Non-obvious invariants, workarounds, references to external specs.
+
+  Example:
+      >>> short_runnable_example()
+      expected_output
+  """
+  ```
+  Trivial helpers (one-line body, obvious contract) can use a one-line docstring. The rule is about *format when extended detail exists*, not about forcing every function to fill every section.
+- **TypeScript / JS:** JSDoc on exported functions, classes, types, and React components. Same one-line-summary-plus-tags shape. Mark `@param`, `@returns`, `@throws` where relevant.
+- **Inline comments stay sparse — explain *why*, not *what*.** A comment that describes what the code does is a code-smell that the names are weak. Comments for non-obvious constraints, workarounds, surprising invariants, references to external specs, or empirical findings are welcome.
+- **Private helpers (`_foo`) can have docstrings** when they encode a non-trivial contract, side effect, or invariant. Don't reflexively delete them; ask whether the next reader can use the function correctly without the docstring.
+- **References to external specs, ADRs, or empirical investigations are valuable** in docstrings and module-level documentation. They tell the reader where the unusual choice came from. Bare git history is not a substitute.
+
 ### Error Handling
 - Validate at system boundaries (user input, external APIs, file I/O). Trust internal code.
 - For non-critical operations, log the error and degrade gracefully rather than crashing.
